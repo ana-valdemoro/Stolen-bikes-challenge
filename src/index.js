@@ -1,15 +1,34 @@
 import express from "express";
 import apiRouter from "../src/features/api.router";
+import db from "../config/db";
+import config from "../config/index";
 
 const app = express();
-const port = 3000;
 
 app.use(express.json());
 
 app.use(apiRouter);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+// Stablish mongoose connection
+db.connect();
+
+// Process ping
+app.get("/ping", async (req, res) =>
+  res.send({
+    status: "pong",
+    name,
+    uptime: process.uptime(),
+    db: mongoose.connection.readyState,
+    // cache: redisClient.connected
+  })
+); // eslint-disable-line
+
+app.listen(config.port, (err) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log(`Stolen bikes app listening on port ${config.port}`);
 });
 
 app.use((err, req, res) => {
