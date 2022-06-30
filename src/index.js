@@ -1,7 +1,7 @@
 import express from "express";
 import apiRouter from "../src/features/api.router";
-import db from "../config/db";
-import config from "../config/index";
+import db from "./config/db";
+import config from "./config/index";
 
 const app = express();
 
