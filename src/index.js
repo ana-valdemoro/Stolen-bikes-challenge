@@ -11,3 +11,8 @@ app.use(apiRouter);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+
+app.use((err, req, res) => {
+  console.log(err);
+  res.status(500).json({ error: err.message });
+});
