@@ -2,7 +2,7 @@ import "dotenv/config";
 
 export default {
   env: process.env.NODE_ENV || "development",
-  port: process.env.PORT || 4000,
+  port: process.env.NODE_PORT || 4000,
   jwt: {
     private: "",
     public: "",

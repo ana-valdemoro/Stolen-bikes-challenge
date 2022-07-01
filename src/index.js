@@ -2,15 +2,16 @@ import express from "express";
 import apiRouter from "../src/features/api.router";
 import db from "./config/db";
 import config from "./config/index";
+import { handleValidationError } from "./errors/handleErrors";
 
 const app = express();
 
 app.use(express.json());
 
-app.use(apiRouter);
-
 // Stablish mongoose connection
 db.connect();
+
+app.use(apiRouter);
 
 // Process ping
 app.get("/ping", async (req, res) =>
@@ -31,7 +32,11 @@ app.listen(config.port, (err) => {
   console.log(`Stolen bikes app listening on port ${config.port}`);
 });
 
-app.use((err, req, res) => {
-  console.log(err);
-  res.status(500).json({ error: err.message });
+app.use(handleValidationError);
+
+app.use((err, req, res, next) => {
+  const error = err.isBoom ? err : boom.internal(err.message);
+  const { statusCode, payload } = error.output;
+
+  res.status(statusCode).json(payload);
 });
