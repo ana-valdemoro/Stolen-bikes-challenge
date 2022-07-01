@@ -1,12 +1,16 @@
 import express from "express";
+import morgan from "morgan";
 import apiRouter from "../src/features/api.router";
 import db from "./config/db";
 import config from "./config/index";
 import { handleValidationError } from "./errors/handleErrors";
+import logger from "./config/winston";
 
 const app = express();
 
 app.use(express.json());
+
+app.use(morgan("combined", { stream: logger.stream }));
 
 // Stablish mongoose connection
 db.connect();
