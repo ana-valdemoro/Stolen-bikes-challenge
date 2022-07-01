@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
+import StolenBikeSchema from "./stolenBike";
+import RoleSchema from "./role";
 
-const StolenBikeSchema = require("./stolenBike");
-
-const models = {
+export const models = {
   StolenBike: mongoose.model("StolenBikes", StolenBikeSchema),
+  Role: mongoose.model("Roles", RoleSchema),
 };
-
-// We export the models variable to be used in App.
-export default models;
