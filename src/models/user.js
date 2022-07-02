@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+
 const jwt = require("../utils/middleware/jwt");
 
 const schema = new mongoose.Schema(
@@ -32,7 +34,7 @@ const schema = new mongoose.Schema(
     active: {
       required: true,
       type: Boolean,
-      default: false,
+      default: true,
     },
     deleted: {
       required: true,
@@ -49,6 +51,16 @@ const schema = new mongoose.Schema(
     },
   }
 );
+
+/**
+ * Before saving an user for the first time, we hash his password
+ */
+schema.pre("save", function (next) {
+  const user = this;
+  console.log(this);
+  user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
+  return next();
+});
 
 schema.methods.validPassword = function (pass) {
   return bcrypt.compareSync(pass, this.password);
