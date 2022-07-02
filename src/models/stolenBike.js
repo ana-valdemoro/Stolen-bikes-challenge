@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const schema = new mongoose.Schema(
+export const StolenBikeSchema = new mongoose.Schema(
   {
     uuid: {
       required: true,
@@ -55,7 +55,10 @@ const schema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform(doc, ret) {
+        delete ret._id;
+      },
+    },
   }
 );
-
-export default schema;

@@ -5,7 +5,12 @@ const createStolenBike = validate(
   {
     body: joi.object({
       color: joi.string().min(3).max(12).required(),
-      date: joi.date().less("now").required(),
+      date: joi
+        .date()
+        .iso()
+        .less("now")
+        .messages({ "date.format": `Date format is YYYY-MM-DD` })
+        .required(),
       thiefDescription: joi.string().min(20).max(250).required(),
       address: joi.string().min(12).max(100).required(),
       type: joi.string().min(5).max(50).required(),

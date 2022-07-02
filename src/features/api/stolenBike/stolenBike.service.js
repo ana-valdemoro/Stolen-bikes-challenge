@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-
 import { StolenBike } from "../../../models/index";
 
 const toPublic = (stolenBike) => stolenBike.toJSON();
 
-const createStolenBike = async (data) => {
+const create = async (data) => {
   const dataToCreate = { ...data, uuid: uuidv4() };
-  return StolenBike.create(dataToCreate);
+  console.log(dataToCreate);
+  return await StolenBike.create(dataToCreate);
 };
 
-export { toPublic, createStolenBike };
+export default { toPublic, create };
