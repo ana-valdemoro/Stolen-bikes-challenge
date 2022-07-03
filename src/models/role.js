@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const schema = new mongoose.Schema(
+export const RoleSchema = new mongoose.Schema(
   {
     uuid: {
       required: true,
@@ -31,5 +31,3 @@ const schema = new mongoose.Schema(
     },
   }
 );
-
-export default schema;

@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { generateJWT } from "../utils/middleware/jwt";
 
-const jwt = require("../utils/middleware/jwt");
-
-const schema = new mongoose.Schema(
+export const UserSchema = new mongoose.Schema(
   {
     uuid: {
       required: true,
@@ -23,23 +22,9 @@ const schema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    token: {
-      type: String,
-      default: "",
-    },
     role_uuid: {
       required: true,
       type: [String],
-    },
-    active: {
-      required: true,
-      type: Boolean,
-      default: true,
-    },
-    deleted: {
-      required: true,
-      type: Boolean,
-      default: false,
     },
   },
   {
@@ -55,24 +40,23 @@ const schema = new mongoose.Schema(
 /**
  * Before saving an user for the first time, we hash his password
  */
-schema.pre("save", function (next) {
+UserSchema.pre("save", function (next) {
   const user = this;
   console.log(this);
   user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10));
   return next();
 });
 
-schema.methods.validPassword = function (pass) {
+UserSchema.methods.validPassword = function (pass) {
   return bcrypt.compareSync(pass, this.password);
 };
-schema.methods.toAuthJSON = function () {
+
+UserSchema.methods.toAuthJSON = function () {
   const user = this.toJSON();
-  user.token = jwt.generateJWT({
+  user.token = generateJWT({
     uuid: user.uuid,
     type: "user",
   });
   delete user.password;
   return user;
 };
-
-export default schema;
