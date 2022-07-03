@@ -61,11 +61,6 @@ export const StolenBikeSchema = new mongoose.Schema(
       enum: ["UNASSIGNED", "IN PROCESS", "SOLVED"],
       default: "UNASSIGNED",
     },
-    deleted: {
-      required: true,
-      type: Boolean,
-      default: false,
-    },
   },
   {
     timestamps: true,
