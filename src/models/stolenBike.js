@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+const bikeOwnerSchema = new mongoose.Schema({
+  full_name: {
+    required: true,
+    type: String,
+  },
+  uuid: {
+    required: true,
+    type: String,
+  },
+});
+
 export const StolenBikeSchema = new mongoose.Schema(
   {
     uuid: {
@@ -31,10 +42,13 @@ export const StolenBikeSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    owner_id: {
+    bike_owner: {
       required: false,
-      type: mongoose.ObjectId,
-      default: null,
+      type: bikeOwnerSchema,
+      default: {
+        full_name: "Joana Doe",
+        uuid: "123456789",
+      },
     },
     police_id: {
       required: false,
@@ -44,8 +58,8 @@ export const StolenBikeSchema = new mongoose.Schema(
     status: {
       required: true,
       type: String,
-      enum: ["PENDING", "SOLVED"],
-      default: "PENDING",
+      enum: ["UNASSIGNED", "IN PROCESS", "SOLVED"],
+      default: "UNASSIGNED",
     },
     deleted: {
       required: true,
