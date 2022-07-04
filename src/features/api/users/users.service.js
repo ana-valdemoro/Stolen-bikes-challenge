@@ -9,6 +9,7 @@ const toPublic = (user) => user.toJSON();
 
 export const getUserByEmail = async (email) => User.findOne({ email });
 
+export const getUser = async (uuid) => User.findOne({ uuid });
 
 export const createUser = async (data) => {
   const dataToCreate = {
