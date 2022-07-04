@@ -9,3 +9,11 @@ const toPublic = (user) => user.toJSON();
 
 export const getUserByEmail = async (email) => User.findOne({ email });
 
+
+export const createUser = async (data) => {
+  const dataToCreate = {
+    ...data,
+    uuid: uuidv4(),
+  };
+  return User.create(dataToCreate);
+};

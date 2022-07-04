@@ -1,6 +1,7 @@
 import boom from "@hapi/boom";
 import logger from "../../../config/winston";
-import { getUserByEmail } from "../users/users.service";
+import { getUserByEmail, createUser } from "../users/users.service";
+import { getRoleByName } from "../role/role.service";
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -25,7 +26,6 @@ export const login = async (req, res, next) => {
       return next(boom.unauthorized("Password is not valid"));
     }
   } catch (error) {
-    console.log("hola");
     logger.error(`${error}`);
     return next(boom.badRequest(error.message));
   }
@@ -40,4 +40,30 @@ export const login = async (req, res, next) => {
   }
 
   return res.json(response);
+};
+
+export const register = async (req, res, next) => {
+  const { fullName, ...userData } = req.body;
+  let user;
+
+  try {
+    const { uuid } = await getRoleByName("Bike Owner");
+
+    user = await createUser({
+      full_name: fullName,
+      ...userData,
+      role_uuid: [uuid],
+    });
+  } catch (error) {
+    if (error.code === 11000 && error.keyPattern) {
+      const duplicatedField = Object.keys(error.keyValue)[0];
+      return next(
+        boom.badData(`A user with this ${duplicatedField} already exists`)
+      );
+    }
+    logger.error(`${error}`);
+    return next(boom.badData(error.message));
+  }
+
+  return res.status(201).json(user.toJSON());
 };

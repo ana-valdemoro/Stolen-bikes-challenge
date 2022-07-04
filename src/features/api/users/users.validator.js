@@ -4,7 +4,7 @@ import { validate } from "express-validation";
 const createUser = validate(
   {
     body: joi.object({
-      name: joi.string().min(3).max(30).required(),
+      fullName: joi.string().min(3).max(30).required(),
       email: joi.string().email().required(),
       password: joi.string().required(),
     }),
