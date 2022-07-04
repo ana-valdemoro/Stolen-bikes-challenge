@@ -1,16 +1,25 @@
 import express from "express";
 import boom from "@hapi/boom";
+import morgan from "morgan";
+import passport from "passport";
+import { defineJWTStrategy } from "./config/passport";
 import apiRouter from "../src/features/api.router";
 import db from "./config/db";
 import config from "./config/index";
 import { handleValidationError } from "./errors/handleErrors";
+import logger from "./config/winston";
 
 const app = express();
 
 app.use(express.json());
 
+app.use(morgan("combined", { stream: logger.stream }));
+
 // Stablish mongoose connection
 db.connect();
+
+defineJWTStrategy(passport);
+app.use(passport.initialize());
 
 app.use(apiRouter);
 
@@ -21,9 +30,8 @@ app.get("/ping", async (req, res) =>
     name,
     uptime: process.uptime(),
     db: mongoose.connection.readyState,
-    // cache: redisClient.connected
   })
-); // eslint-disable-line
+);
 
 app.listen(config.port, (err) => {
   if (err) {

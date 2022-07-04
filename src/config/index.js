@@ -1,11 +1,15 @@
 import "dotenv/config";
+import fs from "fs";
+
+const privateKey = fs.readFileSync(`${__dirname}/certs/private.key`);
+const publicKey = fs.readFileSync(`${__dirname}/certs/public.key`);
 
 export default {
   env: process.env.NODE_ENV || "development",
   port: process.env.NODE_PORT || 4000,
   jwt: {
-    private: "",
-    public: "",
+    privateKey,
+    publicKey,
     expiresIn: process.env.JWT_EXPIRESIN || 3600,
   },
   mongo: {

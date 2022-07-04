@@ -1,10 +1,6 @@
 import logger from "../config/winston";
 import { ValidationError } from "express-validation";
 
-const logError = (err) => {
-  logger.error(err.toString());
-};
-
 // Handle Joi errors
 const handleValidationError = (err, req, res, next) => {
   if (err instanceof ValidationError) {
@@ -20,4 +16,4 @@ const handleValidationError = (err, req, res, next) => {
   return next(err);
 };
 
-export { handleValidationError, logError };
+export { handleValidationError };
