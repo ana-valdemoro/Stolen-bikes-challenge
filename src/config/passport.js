@@ -14,7 +14,7 @@ const opts = {
 export const defineJWTStrategy = () => {
   passport.use(
     new JwtStrategy(opts, async (jwtPayload, done) => {
-      console.log(jwtPayload);
+      // console.log(jwtPayload);
       const expirationDate = new Date(jwtPayload.exp * 1000);
 
       if (expirationDate < new Date()) {
@@ -24,7 +24,6 @@ export const defineJWTStrategy = () => {
       if (jwtPayload.type === "user") {
         try {
           const user = await getUser(jwtPayload.uuid);
-
           return done(user, null, jwtPayload.type);
         } catch (e) {
           return done(
@@ -34,7 +33,6 @@ export const defineJWTStrategy = () => {
           );
         }
       }
-
       return done(null, false);
     })
   );

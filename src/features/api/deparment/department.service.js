@@ -9,4 +9,6 @@ const create = async (data) => {
   return await Department.create(dataToCreate);
 };
 
-export default { toPublic, create };
+const getByID = async (id) => Department.findById(id);
+
+export default { toPublic, create, getByID };

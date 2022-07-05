@@ -44,6 +44,7 @@ app.listen(config.port, (err) => {
 app.use(handleValidationError);
 
 app.use((err, req, res, next) => {
+  console.log(err);
   const error = err.isBoom ? err : boom.internal(err.message);
   const { statusCode, payload } = error.output;
 
