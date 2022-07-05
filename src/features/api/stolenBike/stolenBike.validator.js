@@ -27,4 +27,18 @@ const createStolenBike = validate(
   }
 );
 
-export default { createStolenBike };
+const resolveStolenBike = validate(
+  {
+    body: joi.object({}),
+  },
+  {
+    context: false,
+    statusCode: 422,
+    keyByField: true,
+  },
+  {
+    abortEarly: false,
+  }
+);
+
+export default { createStolenBike, resolveStolenBike };

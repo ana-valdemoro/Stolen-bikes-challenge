@@ -11,13 +11,8 @@ const bikeOwnerSchema = new mongoose.Schema({
   },
 });
 
-export const StolenBikeSchema = new mongoose.Schema(
+export const SolvedStolenBikeSchema = new mongoose.Schema(
   {
-    // uuid: {
-    //   required: true,
-    //   type: String,
-    //   unique: true,
-    // },
     color: {
       required: true,
       type: String,
@@ -58,16 +53,11 @@ export const StolenBikeSchema = new mongoose.Schema(
     status: {
       required: true,
       type: String,
-      enum: ["UNASSIGNED", "IN PROCESS"],
-      default: "UNASSIGNED",
+      enum: ["SOLVED"],
+      default: "SOLVED",
     },
   },
   {
     timestamps: true,
-    // toJSON: {
-    //   transform(doc, ret) {
-    //     delete ret._id;
-    //   },
-    // },
   }
 );

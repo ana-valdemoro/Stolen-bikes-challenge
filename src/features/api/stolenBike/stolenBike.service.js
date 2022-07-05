@@ -9,4 +9,8 @@ const create = async (data) => {
   return await StolenBike.create(dataToCreate);
 };
 
-export default { toPublic, create };
+const remove = async (stolenBike) => stolenBike.remove();
+
+const getByID = async (id) => StolenBike.findById(id);
+
+export default { toPublic, create, remove, getByID };
