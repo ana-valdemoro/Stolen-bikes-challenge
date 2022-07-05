@@ -27,4 +27,16 @@ const createPoliceOfficer = async (req, res, next) => {
   return res.status(201).json(policeOfficerService.toPublic(createdPolice));
 };
 
-export { createPoliceOfficer };
+const listPoliceOfficers = async (req, res, next) => {
+  let policesOfficers;
+  try {
+    policesOfficers = await policeOfficerService.list();
+  } catch (error) {
+    logger.error(`${error}`);
+    return next(boom.badImplementation(error.message));
+  }
+
+  return res.json(policesOfficers);
+};
+
+export { createPoliceOfficer, listPoliceOfficers };

@@ -48,4 +48,6 @@ const create = async (data) => {
   return await PoliceOfficer.create(dataToCreate);
 };
 
-export default { create, toPublic };
+const list = async () => PoliceOfficer.find({});
+
+export default { create, toPublic, list };
