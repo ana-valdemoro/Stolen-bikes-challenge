@@ -6,9 +6,16 @@ import solvedStolenBikeService from "../solvedStolenBike/solvedStolenBike.servic
 
 const createStolenBike = async (req, res, next) => {
   let bike = transformObjectKeysFromCamelToUnderscore(req.body);
+  const { user } = req;
+
+  const bikeOwner = {
+    _id: user._id,
+    full_name: user.full_name,
+    uuid: user.uuid,
+  };
 
   try {
-    bike = await stolenBikeService.create(bike);
+    bike = await stolenBikeService.create({ ...bike, bike_owner: bikeOwner });
   } catch (error) {
     logger.error(`${error}`);
     return next(boom.badData(error.message));

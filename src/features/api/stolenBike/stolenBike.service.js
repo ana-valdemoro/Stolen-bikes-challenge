@@ -5,7 +5,6 @@ const toPublic = (stolenBike) => stolenBike.toJSON();
 
 const create = async (data) => {
   const dataToCreate = { ...data, uuid: uuidv4() };
-  console.log(dataToCreate);
   return await StolenBike.create(dataToCreate);
 };
 
