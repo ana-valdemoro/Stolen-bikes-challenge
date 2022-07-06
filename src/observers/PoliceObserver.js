@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import logger from "../config/winston";
 import policeOfficerService from "../features/api/policeOfficer/policeOfficer.service";
 import stolenBikeService from "../features/api/stolenBike/stolenBike.service";
 
@@ -29,22 +30,40 @@ export function createPoliceObserver() {
         return;
       }
     } else if (operationType === "insert") {
+      console.log("hola");
+
       const { fullDocument: policeOfficer } = next;
       //Get one stolen bike case
-      const unassignedBike = await stolenBikeService.listUnsignedBike();
+      let unassignedBike;
+      try {
+        unassignedBike = await stolenBikeService.getOneUnsignedBike();
+      } catch (error) {
+        logger.error(error);
+        return;
+      }
 
       if (unassignedBike) {
-        const updatedBike = stolenBikeService.update(unassignedBike._id, {
-          status: "IN PROCESS",
-          police_id: policeOfficer._id,
-        });
+        let updatedBike;
+        try {
+          updatedBike = stolenBikeService.update(unassignedBike._id, {
+            status: "IN PROCESS",
+            police_id: policeOfficer._id,
+          });
+        } catch (error) {
+          logger.error(error);
+          return;
+        }
 
         if (updatedBike) {
           console.log("Se ha podido asignar una bicicleta a un policia");
-          // cambair estado del policia
-          await policeOfficerService.update(policeOfficer._id, {
-            status: "BUSY",
-          });
+
+          try {
+            await policeOfficerService.update(policeOfficer._id, {
+              status: "BUSY",
+            });
+          } catch (error) {
+            logger.error(error);
+          }
         }
       }
     }
