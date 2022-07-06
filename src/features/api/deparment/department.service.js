@@ -11,4 +11,6 @@ const create = async (data) => {
 
 const getByID = async (id) => Department.findById(id);
 
-export default { toPublic, create, getByID };
+const list = async () => Department.find({});
+
+export default { toPublic, create, getByID, list };

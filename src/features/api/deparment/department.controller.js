@@ -15,4 +15,17 @@ const createDeparment = async (req, res, next) => {
   return res.status(201).json(departmentService.toPublic(department));
 };
 
-export { createDeparment };
+const listDepartments = async (req, res, next) => {
+  let departments;
+
+  try {
+    departments = await departmentService.list();
+  } catch (error) {
+    logger.error(`${error}`);
+    return next(boom.badImplementation(error.message));
+  }
+
+  return res.json(departments);
+};
+
+export { createDeparment, listDepartments };
