@@ -12,4 +12,11 @@ const remove = async (stolenBike) => stolenBike.remove();
 
 const getByID = async (id) => StolenBike.findById(id);
 
-export default { toPublic, create, remove, getByID };
+const listUnsignedBike = async () => {
+  return StolenBike.findOne({ where: { status: "UNASSIGNED" } });
+};
+
+const update = async (id, data) =>
+  StolenBike.findByIdAndUpdate(id, data, { new: true });
+
+export default { toPublic, create, remove, getByID, listUnsignedBike, update };

@@ -20,3 +20,5 @@ export async function loadStolenBike(req, res, next) {
 
   next();
 }
+
+export async function checkOwnerShipOfTheCase(req, res, next) {}

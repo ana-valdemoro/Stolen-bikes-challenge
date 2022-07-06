@@ -24,7 +24,6 @@ const create = async (data) => {
   // Calle to createPoliceOfficerUser
   try {
     userCreated = await createPoliceOfficerUser(user);
-    // console.log(userCreated);
   } catch (error) {
     if (error.code === 11000 && error.keyPattern) {
       const duplicatedField = Object.keys(error.keyValue)[0];
@@ -50,4 +49,7 @@ const create = async (data) => {
 
 const list = async () => PoliceOfficer.find({});
 
-export default { create, toPublic, list };
+const update = async (id, data) =>
+  PoliceOfficer.findByIdAndUpdate(id, data, { new: true });
+
+export default { create, toPublic, list, update };

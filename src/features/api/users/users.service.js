@@ -21,11 +21,11 @@ export const create = async (data) => {
 };
 
 export const createPoliceOfficerUser = async (data) => {
-  // Get polic officer role
+  // Get police officer role
   const { uuid } = await getRoleByName("Police Officer");
   if (uuid === undefined || uuid === null) {
     return null;
   }
-  // call to createUser
+  // Call to createUser
   return await create({ ...data, role_uuid: [uuid], password: "12345" });
 };
