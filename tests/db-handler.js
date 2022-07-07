@@ -3,6 +3,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import logger from "../src/config/winston";
 
 let mongod;
+
 /**
  * Connect to the in-memory database.
  */
@@ -13,12 +14,9 @@ export const connectDatabase = async () => {
 
   const mongooseOpts = {
     useNewUrlParser: true,
-    // autoReconnect: true,
-    // reconnectTries: Number.MAX_VALUE,
-    // reconnectInterval: 1000,
   };
 
-  await connect(uri, mongooseOpts);
+  connect(uri, mongooseOpts);
 };
 
 /**

@@ -13,11 +13,6 @@ const bikeOwnerSchema = new mongoose.Schema({
 
 export const StolenBikeSchema = new mongoose.Schema(
   {
-    // uuid: {
-    //   required: true,
-    //   type: String,
-    //   unique: true,
-    // },
     color: {
       required: true,
       type: String,
@@ -43,17 +38,14 @@ export const StolenBikeSchema = new mongoose.Schema(
       type: String,
     },
     bike_owner: {
-      required: false,
+      required: true,
       type: bikeOwnerSchema,
-      default: {
-        full_name: "Joana Doe",
-        uuid: "123456789",
-      },
     },
     police_id: {
       required: false,
       type: mongoose.Types.ObjectId,
       unique: true,
+      ref: "policeofficers",
     },
     status: {
       required: true,
