@@ -10,7 +10,7 @@ const extractFilters = (params) => {
   }
 
   if (params.license_number) {
-    query.license_number = params.license_number;
+    query.license_number = { $regex: params.license_number };
   }
 
   return query;
