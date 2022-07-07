@@ -53,7 +53,7 @@ export const StolenBikeSchema = new mongoose.Schema(
     police_id: {
       required: false,
       type: mongoose.Types.ObjectId,
-      default: null,
+      unique: true,
     },
     status: {
       required: true,

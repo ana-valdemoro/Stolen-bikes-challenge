@@ -14,9 +14,21 @@ const createStolenBike = async (req, res, next) => {
     uuid: user.uuid,
   };
 
+  if (res.locals?.policeOfficer) {
+    const { policeOfficer } = res.locals;
+    console.log(policeOfficer);
+    bike.police_id = policeOfficer._id;
+    bike.status = "IN PROCESS";
+  }
+
   try {
     bike = await stolenBikeService.create({ ...bike, bike_owner: bikeOwner });
   } catch (error) {
+    if (error.code === 11000 && error.keyPattern) {
+      const duplicatedField = Object.keys(error.keyValue)[0];
+      logger.error(`A stolen_bike with this ${duplicatedField} already exists`);
+    }
+
     logger.error(`${error}`);
     return next(boom.badData(error.message));
   }

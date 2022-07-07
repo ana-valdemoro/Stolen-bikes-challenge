@@ -52,4 +52,12 @@ const list = async () => PoliceOfficer.find({});
 const update = async (id, data) =>
   PoliceOfficer.findByIdAndUpdate(id, data, { new: true });
 
-export default { create, toPublic, list, update };
+const bookFreePoliceOfficer = async () => {
+  return PoliceOfficer.findOneAndUpdate(
+    { status: "FREE" },
+    { status: "BUSY" },
+    { new: true }
+  );
+};
+
+export default { create, toPublic, list, update, bookFreePoliceOfficer };

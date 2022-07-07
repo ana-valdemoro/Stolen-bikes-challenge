@@ -1,4 +1,6 @@
 import boom from "@hapi/boom";
+import logger from "../../../config/winston";
+import policeOfficerService from "../policeOfficer/policeOfficer.service";
 import stolenBikeService from "./stolenBike.service";
 
 export async function loadStolenBike(req, res, next) {
@@ -17,6 +19,21 @@ export async function loadStolenBike(req, res, next) {
 
   if (!stolenBike) return next(boom.notFound("StolenBike not found"));
   res.locals.stolenBike = stolenBike;
+
+  next();
+}
+
+export async function bookFreePoliceOfficer(req, res, next) {
+  let policeOfficer;
+  try {
+    policeOfficer = await policeOfficerService.bookFreePoliceOfficer();
+  } catch (error) {
+    logger.error(error);
+  }
+
+  if (policeOfficer) {
+    res.locals.policeOfficer = policeOfficer;
+  }
 
   next();
 }
