@@ -10,18 +10,17 @@ afterEach(async () => await clearDatabase());
 /**
  *  Unit test suite of StolenBike
  */
+const stolenBikeData = {
+  color: "yellow",
+  date: "2022-04-07",
+  thief_description: "A weird man with a red hood",
+  address: "Cordoba stree",
+  type: "Montana",
+  license_number: "123243242",
+};
 
 describe("Stolen bike service test suite", () => {
   describe("Create", () => {
-    const stolenBikeData = {
-      color: "yellow",
-      date: "2022-04-07",
-      thief_description: "A weird man with a red hood",
-      address: "Cordoba stree",
-      type: "Montana",
-      license_number: "123243242",
-    };
-
     it("Should be created correctly", async () => {
       expect(async () => {
         await stolenBikeService.create(stolenBikeData);
@@ -36,14 +35,18 @@ describe("Stolen bike service test suite", () => {
     });
   });
 
-  //   describe("GetOneUnssignedBike", () => {
+  describe("Get One Unssigned Bike", () => {
+    it("Should return null when can not find any unassigened stolen bike", async () => {
+      const stolenBike = await stolenBikeService.getOneUnsignedBike();
 
-  //     it.only("Should return null when can not find any unassigened stolen bike", () => {
-  //         // await stolenBikeService.create(stolenBikeData);
-  //         const stolenBike = await stolenBikeService.getOneUnsignedBike();
+      expect(stolenBike).toBeNull();
+    });
 
-  //         expect(stolenBike).not.toBeNull();
+    it("Should return an unassigned stolen bike", async () => {
+      await stolenBikeService.create(stolenBikeData);
+      const stolenBike = await stolenBikeService.getOneUnsignedBike();
 
-  //     });
-  //   });
+      expect(stolenBike).toHaveProperty("status", "UNASSIGNED");
+    });
+  });
 });
