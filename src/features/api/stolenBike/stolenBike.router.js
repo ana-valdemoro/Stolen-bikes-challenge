@@ -1,9 +1,15 @@
 import { Router } from "express";
-import { createStolenBike, resolveStolenBike } from "./stolenBike.controller";
+import {
+  createStolenBike,
+  resolveStolenBike,
+  listStolenBike,
+} from "./stolenBike.controller";
 import { loadStolenBike, bookFreePoliceOfficer } from "./stolenBike.middleware";
 import validator from "./stolenBike.validator";
 
 const router = Router();
+
+router.get("/", listStolenBike);
 
 router.post(
   "/",

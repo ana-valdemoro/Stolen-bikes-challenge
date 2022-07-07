@@ -19,6 +19,8 @@ const getOneUnsignedBike = async () => {
 const update = async (id, data) =>
   StolenBike.findByIdAndUpdate(id, data, { new: true });
 
+const list = async (filters) => StolenBike.find({ ...filters });
+
 export default {
   toPublic,
   create,
@@ -26,4 +28,5 @@ export default {
   getByID,
   getOneUnsignedBike,
   update,
+  list,
 };

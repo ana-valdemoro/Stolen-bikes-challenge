@@ -3,6 +3,7 @@ import stolenBikeService from "./stolenBike.service";
 import logger from "../../../config/winston";
 import { transformObjectKeysFromCamelToUnderscore } from "../../../utils/transformer";
 import solvedStolenBikeService from "../solvedStolenBike/solvedStolenBike.service";
+import extractStolenBikeFilters from "./stolenBike.filters";
 
 const createStolenBike = async (req, res, next) => {
   let bike = transformObjectKeysFromCamelToUnderscore(req.body);
@@ -71,4 +72,18 @@ const resolveStolenBike = async (req, res, next) => {
     .json(solvedStolenBikeService.toPublic(solvedCreatedBike));
 };
 
-export { createStolenBike, resolveStolenBike };
+const listStolenBike = async (req, res, next) => {
+  const filters = extractStolenBikeFilters(req.query);
+  let stolenBikes;
+  console.log(filters);
+  try {
+    stolenBikes = await stolenBikeService.list(filters);
+  } catch (error) {
+    logger.error(`${error}`);
+    return next(boom.badImplementation(error.message));
+  }
+
+  return res.json(stolenBikes);
+};
+
+export { createStolenBike, resolveStolenBike, listStolenBike };
