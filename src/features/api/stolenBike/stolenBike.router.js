@@ -3,6 +3,7 @@ import {
   createStolenBike,
   resolveStolenBike,
   listStolenBike,
+  getStolenBike,
 } from "./stolenBike.controller";
 import { loadStolenBike, bookFreePoliceOfficer } from "./stolenBike.middleware";
 import validator from "./stolenBike.validator";
@@ -10,6 +11,8 @@ import validator from "./stolenBike.validator";
 const router = Router();
 
 router.get("/", listStolenBike);
+
+router.get("/:stolenBikeId", getStolenBike);
 
 router.post(
   "/",

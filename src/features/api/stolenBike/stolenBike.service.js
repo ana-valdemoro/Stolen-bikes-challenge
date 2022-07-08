@@ -12,6 +12,17 @@ const remove = async (stolenBike) => stolenBike.remove();
 
 const getByID = async (id) => StolenBike.findById(id);
 
+const getByIdWithPoliceData = async (id) =>
+  StolenBike.findById(id).populate({
+    path: "police_id",
+    select: "_id department_id status",
+    populate: {
+      path: "department_id",
+      model: "Departments",
+      select: "_id name director_department",
+    },
+  });
+
 const getOneUnsignedBike = async () => {
   return StolenBike.findOne({ status: "UNASSIGNED" });
 };
@@ -39,4 +50,5 @@ export default {
   update,
   list,
   countDocuments,
+  getByIdWithPoliceData,
 };

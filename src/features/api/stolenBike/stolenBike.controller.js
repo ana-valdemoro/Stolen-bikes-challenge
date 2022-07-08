@@ -78,7 +78,7 @@ const listStolenBike = async (req, res, next) => {
   const options = getPaginationParams(req.query);
 
   let stolenBikes, totalDocuments;
-  console.log(options);
+
   try {
     stolenBikes = await stolenBikeService.list(filters, options);
     totalDocuments = await stolenBikeService.countDocuments();
@@ -98,4 +98,24 @@ const listStolenBike = async (req, res, next) => {
   return res.json(response);
 };
 
-export { createStolenBike, resolveStolenBike, listStolenBike };
+const getStolenBike = async (req, res, next) => {
+  const { stolenBikeId } = req.params;
+  let stolenBike;
+  try {
+    stolenBike = await stolenBikeService.getByIdWithPoliceData(stolenBikeId);
+  } catch (error) {
+    return next(boom.badRequest(error.message));
+  }
+
+  let response;
+  try {
+    response = await stolenBike.toFormatPolice();
+  } catch (error) {
+    logger.error(error);
+    return next(boom.badRequest(error.message));
+  }
+
+  return res.json(response);
+};
+
+export { createStolenBike, resolveStolenBike, listStolenBike, getStolenBike };

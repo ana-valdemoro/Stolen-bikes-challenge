@@ -14,6 +14,6 @@ export const Department = mongoose.model("Departments", DepartmentSchema);
 export const Role = mongoose.model("Roles", RoleSchema);
 export const User = mongoose.model("Users", UserSchema);
 export const PoliceOfficer = mongoose.model(
-  "PolicesOfficer",
+  "policeofficer",
   PoliceOfficerSchema
 );

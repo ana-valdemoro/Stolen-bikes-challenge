@@ -8,7 +8,7 @@ let changeStream;
 export function createPoliceObserver() {
   // open a Change Stream
   const policeOfficeCollection =
-    mongoose.connection.collection("policesofficers");
+    mongoose.connection.collection("policeofficers");
 
   const options = { fullDocument: "updateLookup" };
   changeStream = policeOfficeCollection.watch({ status: "FREE" }, options);
@@ -41,7 +41,7 @@ export function createPoliceObserver() {
         logger.error(error);
         return;
       }
-
+      console.log("mi biici sin asignar", unassignedBike);
       if (unassignedBike) {
         let updatedBike;
         try {
