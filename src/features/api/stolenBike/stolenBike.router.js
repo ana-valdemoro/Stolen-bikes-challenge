@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { checkUserIsAuthorized } from "../../../utils/middleware/authorization";
 import {
   createStolenBike,
   resolveStolenBike,
@@ -10,12 +11,17 @@ import validator from "./stolenBike.validator";
 
 const router = Router();
 
-router.get("/", listStolenBike);
+router.get("/", checkUserIsAuthorized("stolen-bikes:view"), listStolenBike);
 
-router.get("/:stolenBikeId", getStolenBike);
+router.get(
+  "/:stolenBikeId",
+  checkUserIsAuthorized("stolen-bikes:view"),
+  getStolenBike
+);
 
 router.post(
   "/",
+  checkUserIsAuthorized("stolen-bikes:create"),
   validator.createStolenBike,
   bookFreePoliceOfficer,
   createStolenBike
@@ -23,6 +29,7 @@ router.post(
 
 router.post(
   "/:stolenBikeId/solve",
+  checkUserIsAuthorized("stolen-bikes:solve"),
   validator.resolveStolenBike,
   loadStolenBike,
   resolveStolenBike

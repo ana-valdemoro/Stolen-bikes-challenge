@@ -13,7 +13,6 @@ const createStolenBike = async (req, res, next) => {
   const bikeOwner = {
     _id: user._id,
     full_name: user.full_name,
-    uuid: user.uuid,
   };
 
   if (res.locals?.policeOfficer) {

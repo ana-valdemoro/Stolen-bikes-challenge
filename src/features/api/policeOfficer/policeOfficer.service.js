@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { PoliceOfficer } from "../../../models/index";
 import { createPoliceOfficerUser } from "../users/users.service";
 import departmentService from "../deparment/department.service";

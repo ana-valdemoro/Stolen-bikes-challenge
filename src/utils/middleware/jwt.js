@@ -1,8 +1,8 @@
-import { sign, verify } from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 import passport from "passport";
 import config from "../../config/index";
 
-const { privateKey, publicKey, expiresIn } = config.jwt;
+const { privateKey, expiresIn } = config.jwt;
 
 export const generateJWT = (payload) =>
   sign(payload, privateKey, {
