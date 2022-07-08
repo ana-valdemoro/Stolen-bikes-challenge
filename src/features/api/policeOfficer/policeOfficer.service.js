@@ -9,17 +9,17 @@ const toPublic = (department) => department.toJSON();
 
 const create = async (data) => {
   const { department_id, ...user } = data;
-  let userCreated, deparment;
-  //Check if department exist
-  try {
-    deparment = await departmentService.getByID(department_id);
-    if (!deparment) {
-      return { error: "422", message: "Department ID does not exist" };
-    }
-  } catch (error) {
-    logger.error(error);
-    return error;
-  }
+  let userCreated;
+  // //Check if department exist
+  // try {
+  //   deparment = await departmentService.getByID(department_id);
+  //   if (!deparment) {
+  //     return { error: "422", message: "Department ID does not exist" };
+  //   }
+  // } catch (error) {
+  //   logger.error(error);
+  //   return error;
+  // }
 
   // Calle to createPoliceOfficerUser
   try {
@@ -40,7 +40,7 @@ const create = async (data) => {
   }
 
   const dataToCreate = {
-    department_id: deparment._id,
+    department_id,
     user_id: userCreated._id,
   };
 

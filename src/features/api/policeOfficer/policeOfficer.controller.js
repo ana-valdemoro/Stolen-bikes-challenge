@@ -1,6 +1,4 @@
 import boom from "@hapi/boom";
-import userService from "../users/users.service";
-import departmentService from "../deparment/department.service";
 import policeOfficerService from "./policeOfficer.service";
 import logger from "../../../config/winston";
 import { transformObjectKeysFromCamelToUnderscore } from "../../../utils/transformer";
