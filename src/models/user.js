@@ -4,11 +4,6 @@ import { generateJWT } from "../utils/middleware/jwt";
 
 export const UserSchema = new mongoose.Schema(
   {
-    uuid: {
-      required: true,
-      type: String,
-      unique: true,
-    },
     full_name: {
       required: true,
       type: String,
@@ -22,9 +17,9 @@ export const UserSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    role_uuid: {
+    role_id: {
       required: true,
-      type: [String],
+      type: mongoose.Types.ObjectId,
     },
   },
   {

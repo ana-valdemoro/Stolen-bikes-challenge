@@ -47,12 +47,12 @@ export const register = async (req, res, next) => {
   let user;
 
   try {
-    const { uuid } = await getRoleByName("Bike Owner");
+    const { _id: id } = await getRoleByName("Bike Owner");
 
     user = await create({
       full_name: fullName,
       ...userData,
-      role_uuid: [uuid],
+      role_id: id,
     });
   } catch (error) {
     if (error.code === 11000 && error.keyPattern) {
