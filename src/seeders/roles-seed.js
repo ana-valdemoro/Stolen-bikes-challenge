@@ -19,12 +19,6 @@ const roles = [
   },
   {
     uuid: uuidv4(),
-    name: "Stolen bikes cases",
-    permissions: "STOLEN_BIKE_CASES",
-    deleted: false,
-  },
-  {
-    uuid: uuidv4(),
     name: "Bike Owner",
     permissions: "BIKE_OWNER",
     deleted: false,
