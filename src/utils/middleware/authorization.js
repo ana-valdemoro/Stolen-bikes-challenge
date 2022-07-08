@@ -1,6 +1,6 @@
 import boom from "@hapi/boom";
 import logger from "../../config/winston";
-import { isUserAuthorized } from "../../features/api/users/users.service";
+import { hasPermission } from "../../features/api/users/users.service";
 
 export const checkUserIsAuthorized = (resource) => async (req, res, next) => {
   const { user } = req;
@@ -8,7 +8,7 @@ export const checkUserIsAuthorized = (resource) => async (req, res, next) => {
   console.log(user);
 
   try {
-    const hasPermission = await isUserAuthorized(user, resource);
+    const hasPermission = await hasPermission(user, resource);
 
     if (hasPermission) {
       logger.info(
