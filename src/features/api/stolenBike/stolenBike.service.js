@@ -19,7 +19,16 @@ const getOneUnsignedBike = async () => {
 const update = async (id, data) =>
   StolenBike.findByIdAndUpdate(id, data, { new: true });
 
-const list = async (filters) => StolenBike.find({ ...filters });
+const list = async (filters, options) => {
+  const { page, limit } = options;
+  const offset = page * limit - limit;
+
+  return StolenBike.find({ ...filters })
+    .skip(offset)
+    .limit(limit);
+};
+
+const countDocuments = async () => StolenBike.countDocuments();
 
 export default {
   toPublic,
@@ -29,4 +38,5 @@ export default {
   getOneUnsignedBike,
   update,
   list,
+  countDocuments,
 };

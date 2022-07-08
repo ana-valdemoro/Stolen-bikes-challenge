@@ -4,6 +4,7 @@ import logger from "../../../config/winston";
 import { transformObjectKeysFromCamelToUnderscore } from "../../../utils/transformer";
 import solvedStolenBikeService from "../solvedStolenBike/solvedStolenBike.service";
 import extractStolenBikeFilters from "./stolenBike.filters";
+import getPaginationParams from "../../../utils/pagination";
 
 const createStolenBike = async (req, res, next) => {
   let bike = transformObjectKeysFromCamelToUnderscore(req.body);
@@ -74,16 +75,27 @@ const resolveStolenBike = async (req, res, next) => {
 
 const listStolenBike = async (req, res, next) => {
   const filters = extractStolenBikeFilters(req.query);
-  let stolenBikes;
-  console.log(filters);
+  const options = getPaginationParams(req.query);
+
+  let stolenBikes, totalDocuments;
+  console.log(options);
   try {
-    stolenBikes = await stolenBikeService.list(filters);
+    stolenBikes = await stolenBikeService.list(filters, options);
+    totalDocuments = await stolenBikeService.countDocuments();
   } catch (error) {
     logger.error(`${error}`);
     return next(boom.badImplementation(error.message));
   }
 
-  return res.json(stolenBikes);
+  const response = {
+    data: stolenBikes,
+    page_number: options.page || 1,
+    total_pages: options.limit ? Math.ceil(totalDocuments / options.limit) : 1,
+    page_size: options.limit || -1,
+    page_count: stolenBikes.length || 0,
+  };
+
+  return res.json(response);
 };
 
 export { createStolenBike, resolveStolenBike, listStolenBike };
