@@ -48,7 +48,7 @@ UserSchema.methods.validPassword = function (pass) {
 UserSchema.methods.toAuthJSON = function () {
   const user = this.toJSON();
   user.token = generateJWT({
-    uuid: user.uuid,
+    id: user._id,
     type: "user",
   });
   delete user.password;

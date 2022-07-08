@@ -1,13 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import { User } from "../../../models/index";
 
-import { getRoleByName } from "../role/role.service";
+import { getRoleByName, getRoleById } from "../role/role.service";
 
 const toPublic = (user) => user.toJSON();
 
 export const getUserByEmail = async (email) => User.findOne({ email });
 
-export const getUser = async (uuid) => User.findOne({ uuid });
+export const getUser = async (id) => User.findById(id);
 
 export const create = async (data) => User.create(data);
 

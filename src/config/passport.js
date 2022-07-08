@@ -23,7 +23,7 @@ export const defineJWTStrategy = () => {
 
       if (jwtPayload.type === "user") {
         try {
-          const user = await getUser(jwtPayload.uuid);
+          const user = await getUser(jwtPayload.id);
           return done(user, null, jwtPayload.type);
         } catch (e) {
           return done(
