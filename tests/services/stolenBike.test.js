@@ -19,7 +19,7 @@ const mockStolenBike = {
   license_number: "::license Number::",
   bike_owner: {
     full_name: "::bike owner::",
-    uuid: "aanfadfuisfyhsd7fsd8f",
+    _id: new mongoose.Types.ObjectId(),
   },
 };
 

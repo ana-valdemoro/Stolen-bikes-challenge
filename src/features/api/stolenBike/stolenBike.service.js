@@ -1,12 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
 import { StolenBike } from "../../../models/index";
 
 const toPublic = (stolenBike) => stolenBike.toJSON();
 
-const create = async (data) => {
-  const dataToCreate = { ...data, uuid: uuidv4() };
-  return await StolenBike.create(dataToCreate);
-};
+const create = async (data) => await StolenBike.create(data);
 
 const remove = async (stolenBike) => stolenBike.remove();
 
