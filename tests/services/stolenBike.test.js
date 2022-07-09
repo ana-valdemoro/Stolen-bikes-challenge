@@ -77,3 +77,24 @@ describe("Get One Unssigned Bike", () => {
     expect(stolenBike).toHaveProperty("status", "UNASSIGNED");
   });
 });
+
+describe("Get one by ID", () => {
+  let mockToBeFound;
+  beforeEach(
+    async () => (mockToBeFound = await stolenBikeService.create(mockStolenBike))
+  );
+
+  it("Should return null if not found", async () => {
+    const stolenBike = await stolenBikeService.getByID(
+      mongoose.Types.ObjectId()
+    );
+
+    expect(stolenBike).toBeNull();
+  });
+
+  it("Should return correct stolen bike if Id matches", async () => {
+    const stolenBike = await stolenBikeService.getByID(mockToBeFound._id);
+
+    expect(stolenBike._id).toEqual(mockToBeFound._id);
+  });
+});
