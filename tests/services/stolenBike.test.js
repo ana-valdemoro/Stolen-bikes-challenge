@@ -31,11 +31,18 @@ describe("Stolen bike service test suite", () => {
       }).not.toThrow();
     });
 
-    it("Should be created without police_id and default status", async () => {
+    it("Should be created without police_id", async () => {
       const createdStolenBike = await stolenBikeService.create(mockStolenBike);
 
       expect(createdStolenBike).toHaveProperty("police_id", undefined);
       expect(createdStolenBike).toHaveProperty("status", "UNASSIGNED");
+    });
+
+    it("bike owner can be repeated", async () => {
+      await stolenBikeService.create(mockStolenBike);
+      expect(async () => {
+        await stolenBikeService.create(mockStolenBike);
+      }).not.toThrow();
     });
   });
 
