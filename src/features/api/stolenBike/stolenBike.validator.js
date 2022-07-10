@@ -15,6 +15,7 @@ const createStolenBike = validate(
       address: joi.string().min(12).max(100).required(),
       type: joi.string().min(5).max(50).required(),
       licenseNumber: joi.string().min(5).max(20).required(),
+      bikeOwnerId: joi.string().length(24),
     }),
   },
   {

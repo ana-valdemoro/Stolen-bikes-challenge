@@ -1,6 +1,7 @@
 import boom from "@hapi/boom";
 import logger from "../../../config/winston";
 import policeOfficerService from "../policeOfficer/policeOfficer.service";
+import { getBikeOwnerUser } from "../users/users.service";
 import stolenBikeService from "./stolenBike.service";
 
 export async function loadStolenBike(req, res, next) {
@@ -34,6 +35,44 @@ export async function bookFreePoliceOfficer(req, res, next) {
   if (policeOfficer) {
     res.locals.policeOfficer = policeOfficer;
   }
+
+  next();
+}
+
+export async function loadBikeOwner(req, res, next) {
+  const { user } = req;
+  const { role } = user;
+  let bikeOwner;
+  console.log(user);
+
+  if (role.name === "Bike Owner") {
+    bikeOwner = {
+      _id: user._id,
+      full_name: user.full_name,
+    };
+    res.locals.bikeOwner = bikeOwner;
+    next();
+  }
+
+  const { bikeOwnerId } = req.body;
+
+  if (!bikeOwnerId) {
+    return next(boom.badData("bikeOwnerId is required"));
+  }
+
+  try {
+    bikeOwner = await getBikeOwnerUser(bikeOwnerId);
+  } catch (error) {
+    console.log("peta aqui");
+    logger.error(error);
+    return next(boom.badRequest(error));
+  }
+
+  if (!bikeOwner) {
+    return next(boom.notFound("Bike owner not found"));
+  }
+
+  res.locals.bikeOwner = bikeOwner;
 
   next();
 }

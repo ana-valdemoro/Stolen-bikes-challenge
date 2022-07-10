@@ -6,7 +6,11 @@ import {
   listStolenBike,
   getStolenBike,
 } from "./stolenBike.controller";
-import { loadStolenBike, bookFreePoliceOfficer } from "./stolenBike.middleware";
+import {
+  loadStolenBike,
+  bookFreePoliceOfficer,
+  loadBikeOwner,
+} from "./stolenBike.middleware";
 import validator from "./stolenBike.validator";
 
 const router = Router();
@@ -18,6 +22,7 @@ router.get("/:stolenBikeId", hasPoliceOfficerPermissions, getStolenBike);
 router.post(
   "/",
   validator.createStolenBike,
+  loadBikeOwner,
   bookFreePoliceOfficer,
   createStolenBike
 );

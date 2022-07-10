@@ -9,11 +9,7 @@ import getPaginationParams from "../../../utils/pagination";
 const createStolenBike = async (req, res, next) => {
   let bike = transformObjectKeysFromCamelToUnderscore(req.body);
   const { user } = req;
-
-  const bikeOwner = {
-    _id: user._id,
-    full_name: user.full_name,
-  };
+  const { bikeOwner } = res.locals;
 
   if (res.locals?.policeOfficer) {
     const { policeOfficer } = res.locals;
