@@ -4,13 +4,12 @@ import { getRoleByName } from "../../features/api/role/role.service";
 
 export const hasPoliceOfficerPermissions = (req, res, next) => {
   const { user } = req;
-  const policeRole = getRoleByName("Police Officer");
-  const directorRole = getRoleByName("Police Director Department");
 
-  logger.info("llega al police middleware");
-
-  if (user.role_id === policeRole._id || user.role_id === directorRole._id) {
-    next();
+  if (
+    user.role.name === "Police Officer" ||
+    user.role.name === "Police Director Department"
+  ) {
+    return next();
   }
 
   logger.error(
@@ -26,10 +25,8 @@ export const hasPoliceOfficerPermissions = (req, res, next) => {
 export const hasDirectorPermissions = (req, res, next) => {
   const { user } = req;
 
-  const directorRole = getRoleByName("Police Director Department");
-
-  if (user.role_id === directorRole._id) {
-    next();
+  if (user.role.name === "Police Director Department") {
+    return next();
   }
 
   logger.error(
