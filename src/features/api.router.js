@@ -19,6 +19,6 @@ router.use(
 );
 router.use(`${baseRoute}stolen-bikes`, authorizeHeader, stolenBikesRouter);
 router.use(`${baseRoute}departments`, authorizeHeader, departmentRouter);
-router.use(`${baseRoute}polices-officer`, authorizeHeader, policeOfficerRouter);
+router.use(`${baseRoute}police-officers`, authorizeHeader, policeOfficerRouter);
 
 export default router;
