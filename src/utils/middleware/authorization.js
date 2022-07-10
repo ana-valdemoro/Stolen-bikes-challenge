@@ -5,10 +5,8 @@ import { getRoleByName } from "../../features/api/role/role.service";
 export const hasPoliceOfficerPermissions = (req, res, next) => {
   const { user } = req;
 
-  if (
-    user.role.name === "Police Officer" ||
-    user.role.name === "Police Director Department"
-  ) {
+  console.log(user);
+  if (user.role.name === "Police Officer") {
     return next();
   }
 

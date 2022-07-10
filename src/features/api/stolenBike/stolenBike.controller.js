@@ -109,4 +109,30 @@ const getStolenBike = async (req, res, next) => {
   return res.json(response);
 };
 
-export { createStolenBike, resolveStolenBike, listStolenBike, getStolenBike };
+const getAssignedStolenBike = async (req, res, next) => {
+  const { policeOfficer } = res.locals;
+  let stolenBike;
+
+  try {
+    stolenBike = await stolenBikeService.getByPoliceOfficerId(policeOfficer);
+  } catch (error) {
+    logger.error(error);
+    return next(boom.badImplementation(error));
+  }
+
+  if (!stolenBike) {
+    return res.json({
+      message: `Police officer ${req.user.full_name} is not currently assigned to any stolen bike cases`,
+    });
+  }
+
+  return res.json(stolenBike);
+};
+
+export {
+  createStolenBike,
+  resolveStolenBike,
+  listStolenBike,
+  getStolenBike,
+  getAssignedStolenBike,
+};

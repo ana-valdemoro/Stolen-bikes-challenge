@@ -8,6 +8,9 @@ const remove = async (stolenBike) => stolenBike.remove();
 
 const getByID = async (id) => StolenBike.findById(id);
 
+const getByPoliceOfficerId = async (police_id) =>
+  StolenBike.findOne({ police_id });
+
 const getByIdWithPoliceData = async (id) =>
   StolenBike.findById(id).populate({
     path: "police_id",
@@ -47,4 +50,5 @@ export default {
   list,
   countDocuments,
   getByIdWithPoliceData,
+  getByPoliceOfficerId,
 };

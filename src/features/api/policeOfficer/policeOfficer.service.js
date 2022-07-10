@@ -48,4 +48,15 @@ const bookFreePoliceOfficer = async () => {
   );
 };
 
-export default { create, toPublic, list, update, bookFreePoliceOfficer };
+const getPoliceByUserId = async (id) => {
+  return PoliceOfficer.findOne({ user_id: id });
+};
+
+export default {
+  create,
+  toPublic,
+  list,
+  update,
+  bookFreePoliceOfficer,
+  getPoliceByUserId,
+};
