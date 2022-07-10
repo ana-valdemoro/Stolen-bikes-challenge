@@ -8,9 +8,9 @@ export const checkUserIsAuthorized = (resource) => async (req, res, next) => {
   console.log(user);
 
   try {
-    const hasPermission = await hasPermission(user, resource);
+    const userHasPermission = await hasPermission(user, resource);
 
-    if (hasPermission) {
+    if (userHasPermission) {
       logger.info(
         `User "${user.full_name}" has authorization to "${req.baseUrl}${req.url}"`
       );
