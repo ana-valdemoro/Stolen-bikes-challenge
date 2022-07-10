@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { hasPoliceOfficerPermissions } from "../../../utils/middleware/authorization";
+import {
+  hasDirectorPermissions,
+  hasPoliceOfficerPermissions,
+} from "../../../utils/middleware/authorization";
 import {
   createStolenBike,
   resolveStolenBike,
@@ -29,7 +32,7 @@ router.post(
 
 router.post(
   "/:stolenBikeId/solve",
-  hasPoliceOfficerPermissions,
+  hasDirectorPermissions,
   validator.resolveStolenBike,
   loadStolenBike,
   resolveStolenBike

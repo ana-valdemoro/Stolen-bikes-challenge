@@ -5,9 +5,9 @@ const bikeOwnerSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  uuid: {
+  _id: {
     required: true,
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
   },
 });
 

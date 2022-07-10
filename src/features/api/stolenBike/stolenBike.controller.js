@@ -34,18 +34,7 @@ const createStolenBike = async (req, res, next) => {
 };
 
 const resolveStolenBike = async (req, res, next) => {
-  // Se comprueba el policia
-
-  // Se elimina el caso de la colección
-
   const { stolenBike } = res.locals;
-
-  try {
-    await stolenBikeService.remove(stolenBike);
-  } catch (error) {
-    logger.error(`${error}`);
-    return next(boom.badImplementation(error.message));
-  }
 
   // Se añade a la colección de casos resuletos --> deben tener el mismo mongoose objectID
   let {
@@ -61,6 +50,13 @@ const resolveStolenBike = async (req, res, next) => {
     return next(boom.badImplementation(error.message));
   }
 
+  // Se elimina el caso de la colección original
+
+  try {
+    await stolenBikeService.remove(stolenBike);
+  } catch (error) {
+    logger.error(`${error}`);
+  }
   //Se responde con el nuevo stolenBike case con status: solved
 
   return res
