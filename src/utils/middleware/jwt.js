@@ -1,6 +1,7 @@
 import { sign } from "jsonwebtoken";
 import passport from "passport";
 import config from "../../config/index";
+import logger from "../../config/winston";
 
 const { privateKey, expiresIn } = config.jwt;
 
@@ -21,7 +22,7 @@ export const authorizeHeader = (req, res, next) => {
       }
       return res.status(401).send(info);
     }
-    req.user = user;
+    req.user = user.toFormatRole();
     req.userType = info;
     return next();
   })(req, res);

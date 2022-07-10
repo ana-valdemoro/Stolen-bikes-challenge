@@ -55,3 +55,12 @@ UserSchema.methods.toAuthJSON = function () {
   delete user.password;
   return user;
 };
+
+UserSchema.methods.toFormatRole = function () {
+  const user = this.toJSON();
+  const role = user.role_id;
+  delete user.role_id;
+  user.role = role;
+
+  return user;
+};
