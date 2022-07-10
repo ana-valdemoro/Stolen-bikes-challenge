@@ -1,14 +1,17 @@
 import { Router } from "express";
-import { checkUserIsAuthorized } from "../../../utils/middleware/authorization";
+import {
+  hasDirectorPermissions,
+  hasPoliceOfficerPermissions,
+} from "../../../utils/middleware/authorization";
 import { createDeparment, listDepartments } from "./department.controller";
 import validator from "./department.validator";
 
 const router = Router();
-checkUserIsAuthorized;
-router.get("/", checkUserIsAuthorized("departments:view"), listDepartments);
+
+router.get("/", hasPoliceOfficerPermissions, listDepartments);
 router.post(
   "/",
-  checkUserIsAuthorized("departments:create"),
+  hasDirectorPermissions,
   validator.createDeparment,
   createDeparment
 );

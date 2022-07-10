@@ -20,6 +20,7 @@ export const UserSchema = new mongoose.Schema(
     role_id: {
       required: true,
       type: mongoose.Types.ObjectId,
+      ref: "Roles",
     },
   },
   {

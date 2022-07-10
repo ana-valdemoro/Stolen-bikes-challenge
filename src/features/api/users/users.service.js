@@ -19,14 +19,3 @@ export const createPoliceOfficerUser = async (data) => {
   // Call to createUser
   return await create({ ...data, role_id: id, password: "12345" });
 };
-
-export const hasPermission = async (user, permission) => {
-  const { permissions } = await getRoleById(user.role_id);
-
-  const userRights = permissions.split(",");
-  const [resource] = permission.split(":");
-
-  return (
-    userRights.includes(`${resource}:all`) || userRights.includes(permission)
-  );
-};

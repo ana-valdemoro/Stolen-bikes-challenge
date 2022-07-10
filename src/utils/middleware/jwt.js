@@ -16,6 +16,9 @@ export const authorizeHeader = (req, res, next) => {
       return res.status(401).send(error);
     }
     if (!user) {
+      if (info instanceof Error) {
+        return res.status(401).json(info.message);
+      }
       return res.status(401).send(info);
     }
     req.user = user;
