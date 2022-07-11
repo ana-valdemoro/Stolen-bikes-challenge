@@ -118,15 +118,7 @@ const getStolenBike = async (req, res, next) => {
 };
 
 const getAssignedStolenBike = async (req, res, next) => {
-  const { policeOfficer } = res.locals;
-  let stolenBike;
-
-  try {
-    stolenBike = await stolenBikeService.getByPoliceOfficerId(policeOfficer);
-  } catch (error) {
-    logger.error(error);
-    return next(boom.badImplementation(error));
-  }
+  const { stolenBike } = res.locals;
 
   if (!stolenBike) {
     return res.json({
