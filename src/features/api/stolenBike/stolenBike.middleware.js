@@ -44,7 +44,6 @@ export async function loadBikeOwner(req, res, next) {
   const { user } = req;
   const { role } = user;
   let bikeOwner;
-  console.log(user);
 
   if (role.name === "Bike Owner") {
     bikeOwner = {
@@ -52,7 +51,7 @@ export async function loadBikeOwner(req, res, next) {
       full_name: user.full_name,
     };
     res.locals.bikeOwner = bikeOwner;
-    next();
+    return next();
   }
 
   const { bikeOwnerId } = req.body;
@@ -64,7 +63,6 @@ export async function loadBikeOwner(req, res, next) {
   try {
     bikeOwner = await getBikeOwnerUser(bikeOwnerId);
   } catch (error) {
-    console.log("peta aqui");
     logger.error(error);
     return next(boom.badRequest(error));
   }
