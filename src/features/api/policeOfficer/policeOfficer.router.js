@@ -3,9 +3,13 @@ import {
   createPoliceOfficer,
   listPoliceOfficers,
   getPoliceOfficer,
+  deletePoliceOfficer,
 } from "./policeOfficer.controller";
 import validator from "./policeOfficer.validator";
-import { checkIfDepartmentExist } from "./policeOfficer.middleware";
+import {
+  checkIfDepartmentExist,
+  loadPoliceOfficer,
+} from "./policeOfficer.middleware";
 import {
   hasDirectorPermissions,
   hasPermissions,
@@ -22,6 +26,13 @@ router.post(
   validator.createPoliceOfficer,
   checkIfDepartmentExist,
   createPoliceOfficer
+);
+
+router.delete(
+  "/:policeOfficerId",
+  hasDirectorPermissions,
+  loadPoliceOfficer,
+  deletePoliceOfficer
 );
 
 export default router;

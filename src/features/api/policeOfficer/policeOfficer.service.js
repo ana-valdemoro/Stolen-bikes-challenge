@@ -1,4 +1,4 @@
-import { PoliceOfficer } from "../../../models/index";
+import { PoliceOfficer, User } from "../../../models/index";
 import { createPoliceOfficerUser } from "../users/users.service";
 import departmentService from "../deparment/department.service";
 
@@ -60,6 +60,23 @@ const getByIdWithDepartmentAndUser = async (id) =>
     })
     .populate({ path: "department_id", select: "_id name" });
 
+const remove = async (policeOfficer) => {
+  let removedPoliceOfficer;
+  try {
+    removedPoliceOfficer = await policeOfficer.remove();
+  } catch (error) {
+    console.log(error);
+  }
+  console.log("El elemento borrado");
+  console.log(removedPoliceOfficer);
+  if (!removedPoliceOfficer) {
+    return null;
+  }
+
+  return await User.findOneAndDelete(removedPoliceOfficer.user_id);
+};
+
+const getById = async (id) => PoliceOfficer.findById(id);
 export default {
   create,
   toPublic,
@@ -67,5 +84,7 @@ export default {
   update,
   bookFreePoliceOfficer,
   getPoliceByUserId,
+  getByIdWithDepartmentAndUser,
+  remove,
   getById,
 };

@@ -41,7 +41,9 @@ const getPoliceOfficer = async (req, res, next) => {
   const { policeOfficerId } = req.params;
   let policeOfficer;
   try {
-    policeOfficer = await policeOfficerService.getByIdWithDepartmentAndUser(policeOfficerId);
+    policeOfficer = await policeOfficerService.getByIdWithDepartmentAndUser(
+      policeOfficerId
+    );
   } catch (error) {
     return next(boom.badRequest(error));
   }
@@ -49,4 +51,27 @@ const getPoliceOfficer = async (req, res, next) => {
   return res.json(policeOfficer.toFormatPoliceOfficer());
 };
 
-export { createPoliceOfficer, listPoliceOfficers, getPoliceOfficer };
+const deletePoliceOfficer = async (req, res, next) => {
+  const { policeOfficer } = res.locals;
+  let removedPoliceOfficer;
+  try {
+    removedPoliceOfficer = await policeOfficerService.remove(policeOfficer);
+  } catch (error) {
+    logger.error(error);
+    return next(boom.badData(error.message));
+  }
+  if (removedPoliceOfficer === null) {
+    return next(
+      boom.notFound("It couldn't found the police officer to delete")
+    );
+  }
+
+  return res.status(200).json({});
+};
+
+export {
+  createPoliceOfficer,
+  listPoliceOfficers,
+  getPoliceOfficer,
+  deletePoliceOfficer,
+};
