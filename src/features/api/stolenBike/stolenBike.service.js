@@ -38,7 +38,8 @@ const list = async (filters, options) => {
     .limit(limit);
 };
 
-const countDocuments = async () => StolenBike.countDocuments();
+const countDocuments = async (filters) =>
+  StolenBike.countDocuments({ ...filters });
 
 export default {
   toPublic,

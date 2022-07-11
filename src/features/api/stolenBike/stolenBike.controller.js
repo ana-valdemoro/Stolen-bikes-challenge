@@ -77,7 +77,7 @@ const listStolenBike = async (req, res, next) => {
 
   try {
     stolenBikes = await stolenBikeService.list(filters, options);
-    totalDocuments = await stolenBikeService.countDocuments();
+    totalDocuments = await stolenBikeService.countDocuments(filters);
   } catch (error) {
     logger.error(`${error}`);
     return next(boom.badImplementation(error.message));
