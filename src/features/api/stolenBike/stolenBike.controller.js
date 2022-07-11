@@ -8,13 +8,11 @@ import getPaginationParams from "../../../utils/pagination";
 import policeOfficerService from "../policeOfficer/policeOfficer.service";
 
 const createStolenBike = async (req, res, next) => {
-  let bike = transformObjectKeysFromCamelToUnderscore(req.body);
-  const { user } = req;
-  const { bikeOwner } = res.locals;
+  const { bikeOwnerId, ...bikeToFormat } = req.body;
+  let bike = transformObjectKeysFromCamelToUnderscore(bikeToFormat);
+  const { bikeOwner, policeOfficer } = res.locals;
 
-  if (res.locals?.policeOfficer) {
-    const { policeOfficer } = res.locals;
-    console.log(policeOfficer);
+  if (policeOfficer) {
     bike.police_id = policeOfficer._id;
     bike.status = "IN PROCESS";
   }
@@ -43,7 +41,6 @@ const resolveStolenBike = async (req, res, next) => {
   let {
     _doc: { status, ...solvedStolenBike },
   } = stolenBike;
-  console.log(solvedStolenBike);
 
   let solvedCreatedBike;
   try {
