@@ -5,14 +5,17 @@ import {
 } from "./policeOfficer.controller";
 import validator from "./policeOfficer.validator";
 import { checkIfDepartmentExist } from "./policeOfficer.middleware";
-import { hasPoliceOfficerPermissions } from "../../../utils/middleware/authorization";
+import {
+  hasDirectorPermissions,
+  hasPermissions,
+} from "../../../utils/middleware/authorization";
 
 const router = Router();
-router.get("/", hasPoliceOfficerPermissions, listPoliceOfficers);
+router.get("/", hasPermissions, listPoliceOfficers);
 
 router.post(
   "/",
-  hasPoliceOfficerPermissions,
+  hasDirectorPermissions,
   validator.createPoliceOfficer,
   checkIfDepartmentExist,
   createPoliceOfficer
