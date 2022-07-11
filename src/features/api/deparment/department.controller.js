@@ -3,8 +3,14 @@ import departmentService from "./department.service";
 import logger from "../../../config/winston";
 
 const createDeparment = async (req, res, next) => {
-  const departmentToCreate = req.body;
+  const { name } = req.body;
+  const { directorDepartment } = res.locals;
   let department;
+  const departmentToCreate = {
+    name,
+    director_department: directorDepartment,
+  };
+
   try {
     department = await departmentService.create(departmentToCreate);
   } catch (error) {

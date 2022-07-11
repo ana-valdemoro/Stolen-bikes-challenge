@@ -5,6 +5,7 @@ const createDeparment = validate(
   {
     body: joi.object({
       name: joi.string().min(2).required(),
+      directorDepartmentId: joi.string().length(24).required(),
     }),
   },
   {
