@@ -41,7 +41,7 @@ const getPoliceOfficer = async (req, res, next) => {
   const { policeOfficerId } = req.params;
   let policeOfficer;
   try {
-    policeOfficer = await policeOfficerService.getById(policeOfficerId);
+    policeOfficer = await policeOfficerService.getByIdWithDepartmentAndUser(policeOfficerId);
   } catch (error) {
     return next(boom.badRequest(error));
   }

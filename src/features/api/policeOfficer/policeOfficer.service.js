@@ -52,7 +52,7 @@ const getPoliceByUserId = async (id) => {
   return PoliceOfficer.findOne({ user_id: id });
 };
 
-const getById = async (id) =>
+const getByIdWithDepartmentAndUser = async (id) =>
   PoliceOfficer.findById(id)
     .populate({
       path: "user_id",
