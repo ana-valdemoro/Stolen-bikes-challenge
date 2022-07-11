@@ -1,6 +1,7 @@
 import boom from "@hapi/boom";
 import logger from "../../../config/winston";
 import policeOfficerService from "../policeOfficer/policeOfficer.service";
+import stolenBikeService from "../stolenBike/stolenBike.service";
 
 export const loadPoliceOfficer = async (req, res, next) => {
   const { user } = req;
@@ -17,6 +18,24 @@ export const loadPoliceOfficer = async (req, res, next) => {
   }
 
   res.locals.policeOfficer = policeOfficer;
+
+  next();
+};
+
+export const loadPoliceOfficerStolenBike = async (req, res, next) => {
+  const { policeOfficer } = res.locals;
+  let stolenBike;
+
+  try {
+    stolenBike = await stolenBikeService.getByPoliceOfficerId(policeOfficer);
+  } catch (error) {
+    logger.error(error);
+    return next(boom.badImplementation(error));
+  }
+
+  if (stolenBike) {
+    res.locals.stolenBike = stolenBike;
+  }
 
   next();
 };
