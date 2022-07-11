@@ -19,7 +19,7 @@ import validator from "./stolenBike.validator";
 
 const router = Router();
 
-router.get("/", hasPermissions, listStolenBike);
+router.get("/", hasPermissions, validator.searchList, listStolenBike);
 
 router.get("/:stolenBikeId", hasPermissions, getStolenBike);
 

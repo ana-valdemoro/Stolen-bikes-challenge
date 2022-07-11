@@ -42,4 +42,28 @@ const resolveStolenBike = validate(
   }
 );
 
-export default { createStolenBike, resolveStolenBike };
+const searchList = validate(
+  {
+    query: joi.object({
+      page: joi.number(),
+      pageSize: joi.number(),
+      licenseNumber: joi.string().min(5).max(20),
+      date: joi
+        .date()
+        .iso()
+        .less("now")
+        .messages({ "date.format": `Date format is YYYY-MM-DD` }),
+      status: joi.string().valid("IN PROCESS", "UNASSIGNED"),
+      bikeOwnerId: joi.string().length(24),
+    }),
+  },
+  {
+    context: false,
+    statusCode: 422,
+    keyByField: true,
+  },
+  {
+    abortEarly: false,
+  }
+);
+export default { createStolenBike, resolveStolenBike, searchList };
