@@ -52,6 +52,14 @@ const getPoliceByUserId = async (id) => {
   return PoliceOfficer.findOne({ user_id: id });
 };
 
+const getById = async (id) =>
+  PoliceOfficer.findById(id)
+    .populate({
+      path: "user_id",
+      select: "_id full_name email",
+    })
+    .populate({ path: "department_id", select: "_id name" });
+
 export default {
   create,
   toPublic,
@@ -59,4 +67,5 @@ export default {
   update,
   bookFreePoliceOfficer,
   getPoliceByUserId,
+  getById,
 };

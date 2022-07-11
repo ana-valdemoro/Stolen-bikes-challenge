@@ -37,4 +37,16 @@ const listPoliceOfficers = async (req, res, next) => {
   return res.json(policesOfficers);
 };
 
-export { createPoliceOfficer, listPoliceOfficers };
+const getPoliceOfficer = async (req, res, next) => {
+  const { policeOfficerId } = req.params;
+  let policeOfficer;
+  try {
+    policeOfficer = await policeOfficerService.getById(policeOfficerId);
+  } catch (error) {
+    return next(boom.badRequest(error));
+  }
+
+  return res.json(policeOfficer.toFormatPoliceOfficer());
+};
+
+export { createPoliceOfficer, listPoliceOfficers, getPoliceOfficer };
