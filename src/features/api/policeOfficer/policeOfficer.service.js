@@ -65,15 +65,10 @@ const remove = async (policeOfficer) => {
   try {
     removedPoliceOfficer = await policeOfficer.remove();
   } catch (error) {
-    console.log(error);
-  }
-  console.log("El elemento borrado");
-  console.log(removedPoliceOfficer);
-  if (!removedPoliceOfficer) {
-    return null;
+    return Promise.reject(error);
   }
 
-  return await User.findOneAndDelete(removedPoliceOfficer.user_id);
+  return removedPoliceOfficer;
 };
 
 const getById = async (id) => PoliceOfficer.findById(id);

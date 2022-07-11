@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { User } from ".";
 
 export const PoliceOfficerSchema = new mongoose.Schema(
   {
@@ -40,3 +41,14 @@ PoliceOfficerSchema.methods.toFormatPoliceOfficer = function () {
 
   return policeOfficer;
 };
+
+PoliceOfficerSchema.pre("remove", async function (next) {
+  const policeOfficer = this;
+
+  let deletedUser = await User.findByIdAndDelete(policeOfficer.user_id);
+
+  if (!deletedUser) {
+    throw new Error("Police officer user could not be deleted");
+  }
+  next();
+});

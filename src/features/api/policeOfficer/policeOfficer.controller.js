@@ -58,8 +58,9 @@ const deletePoliceOfficer = async (req, res, next) => {
     removedPoliceOfficer = await policeOfficerService.remove(policeOfficer);
   } catch (error) {
     logger.error(error);
-    return next(boom.badData(error.message));
+    return next(boom.badImplementation(error.message));
   }
+
   if (removedPoliceOfficer === null) {
     return next(
       boom.notFound("It couldn't found the police officer to delete")
