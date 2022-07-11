@@ -27,7 +27,7 @@ export const UserSchema = new mongoose.Schema(
     timestamps: true,
     toJSON: {
       transform(doc, ret) {
-        // delete ret._id;
+        delete ret.password;
       },
     },
   }
