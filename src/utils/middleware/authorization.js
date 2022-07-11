@@ -36,3 +36,22 @@ export const hasDirectorPermissions = (req, res, next) => {
     )
   );
 };
+
+export const hasPermissions = (req, res, next) => {
+  const {
+    role: { name },
+  } = req.user;
+
+  if (name === "Police Director Department" || name === "Police Officer") {
+    return next();
+  }
+
+  logger.error(
+    `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
+  );
+  return next(
+    boom.forbidden(
+      `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
+    )
+  );
+};
