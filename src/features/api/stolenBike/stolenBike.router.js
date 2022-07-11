@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   hasDirectorPermissions,
+  hasPermissions,
   hasPoliceOfficerPermissions,
 } from "../../../utils/middleware/authorization";
 import {
@@ -20,7 +21,7 @@ const router = Router();
 
 router.get("/", hasPoliceOfficerPermissions, listStolenBike);
 
-router.get("/:stolenBikeId", hasPoliceOfficerPermissions, getStolenBike);
+router.get("/:stolenBikeId", hasPermissions, getStolenBike);
 
 router.post(
   "/",
