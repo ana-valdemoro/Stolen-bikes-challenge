@@ -9,8 +9,12 @@ const extractFilters = (params) => {
     query.date = params.date;
   }
 
-  if (params.license_number) {
-    query.license_number = { $regex: params.license_number };
+  if (params.licenseNumber) {
+    query.license_number = { $regex: params.licenseNumber };
+  }
+
+  if (params.bikeOwnerId) {
+    query["bike_owner._id"] = params.bikeOwnerId;
   }
 
   return query;
