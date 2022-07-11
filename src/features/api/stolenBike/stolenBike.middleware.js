@@ -18,8 +18,9 @@ export async function loadStolenBike(req, res, next) {
     return next(boom.badRequest("Cannot look in stolenBike collection"));
   }
 
-  if (!stolenBike) return next(boom.notFound("StolenBike not found"));
-  res.locals.stolenBike = stolenBike;
+  if (stolenBike) {
+    res.locals.stolenBike = stolenBike;
+  }
 
   next();
 }
