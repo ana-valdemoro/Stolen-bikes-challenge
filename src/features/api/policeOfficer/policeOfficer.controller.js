@@ -10,16 +10,12 @@ const createPoliceOfficer = async (req, res, next) => {
   try {
     createdPolice = await policeOfficerService.create(police);
   } catch (error) {
-    logger.error(`${error}`);
+    logger.error(error);
     return next(boom.badData(error.message));
   }
 
-  if (createdPolice === null) {
-    return next(boom.badImplementation());
-  }
-
-  if (createdPolice?.error) {
-    return next(boom.badData(createdPolice.message));
+  if (!createdPolice) {
+    return next(boom.badImplementation("Could not create Police officer"));
   }
 
   return res.status(201).json(policeOfficerService.toPublic(createdPolice));

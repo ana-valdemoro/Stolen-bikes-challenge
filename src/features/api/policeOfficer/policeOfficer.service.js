@@ -1,7 +1,5 @@
 import { PoliceOfficer, User } from "../../../models/index";
 import { createPoliceOfficerUser } from "../users/users.service";
-import departmentService from "../deparment/department.service";
-
 import logger from "../../../config/winston";
 
 const toPublic = (department) => department.toJSON();
@@ -15,16 +13,17 @@ const create = async (data) => {
   } catch (error) {
     if (error.code === 11000 && error.keyPattern) {
       const duplicatedField = Object.keys(error.keyValue)[0];
-      return {
-        error: "MongoError",
-        message: `A user with this ${duplicatedField} already exists`,
-      };
+      return Promise.reject({
+        message: `A user with this ${duplicatedField} and value ${user[duplicatedField]} already exists`,
+      });
     }
     logger.error(error);
-    return error;
+    return Promise.reject(error);
   }
   if (!userCreated) {
-    return { error: "MongoError", message: "User cannot be created" };
+    return Promise.reject({
+      message: "User could not be created",
+    });
   }
 
   const dataToCreate = {
