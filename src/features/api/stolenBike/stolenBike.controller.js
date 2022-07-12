@@ -118,9 +118,7 @@ const getAssignedStolenBike = async (req, res, next) => {
   const { stolenBike } = res.locals;
 
   if (!stolenBike) {
-    return res.json({
-      message: `Police officer ${req.user.full_name} is not currently assigned to any stolen bike cases`,
-    });
+    return res.status(204).json({});
   }
 
   return res.json(stolenBike);
