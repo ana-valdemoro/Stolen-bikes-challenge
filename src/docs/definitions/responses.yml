@@ -1,6 +1,13 @@
 definitions:
   responses:
     Login:
+      allOf:
+        - $ref: "#/definitions/requestBodies/Register"
+        - properties:
+            token:
+              type: string
+
+    Register:
       type: object
       properties:
         _id:
@@ -14,6 +21,4 @@ definitions:
         createdAt:
           type: string
         updatedAt:
-          type: string
-        token:
           type: string

@@ -7,3 +7,9 @@ definitions:
           type: string
         password:
           type: string
+    Register:
+      allOf:
+        - $ref: "#/definitions/requestBodies/Login"
+        - properties:
+            fullName:
+              type: string

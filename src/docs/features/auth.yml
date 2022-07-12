@@ -33,3 +33,29 @@
           application/json:
             schema:
               $ref: "#/definitions/ServerError"
+
+/auth/register:
+  post:
+    summary: Register a bike Owner
+    tags:
+      - Auth
+    requestBody:
+      description: Endpoint for a user bike owner to self-register
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/requestBodies/Register"
+
+    responses:
+      201:
+        description: Bike owner user successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/responses/Register"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ValidationError"
