@@ -30,6 +30,9 @@ const login = validate(
     context: false,
     statusCode: 422,
     keyByField: true,
+  },
+  {
+    abortEarly: false,
   }
 );
 
