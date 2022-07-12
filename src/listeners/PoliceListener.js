@@ -3,48 +3,47 @@ import logger from "../config/winston";
 import policeOfficerService from "../features/api/policeOfficer/policeOfficer.service";
 import stolenBikeService from "../features/api/stolenBike/stolenBike.service";
 
-let changeStream;
-
 export function createPoliceListener() {
   // open a Change Stream
   const policeOfficeCollection =
     mongoose.connection.collection("policeofficers");
 
   const options = { fullDocument: "updateLookup" };
-  changeStream = policeOfficeCollection.watch({ status: "FREE" }, options);
+  const changeStream = policeOfficeCollection.watch(
+    { status: "FREE" },
+    options
+  );
 
-  setUpPoliceListener();
+  changeStream.on("change", setUpPoliceListener);
 
   return { changeStream, onDelete: () => changeStream.close() };
 }
 
-function setUpPoliceListener() {
+const setUpPoliceListener = (next) => {
   // set up a listener when change events are emitted
-  changeStream.on("change", async (next) => {
-    console.log(
-      "Recibidio un cambio dentro de police officer collection \t",
-      next
-    );
+  console.log(
+    "Recibidio un cambio dentro de police officer collection \t",
+    next
+  );
 
-    const { operationType } = next;
+  const { operationType } = next;
 
-    if (operationType === "update") {
-      const status = next.updateDescription.updatedFields.status;
+  if (operationType === "update") {
+    const status = next.updateDescription.updatedFields.status;
 
-      if (status === "BUSY") {
-        return;
-      }
-      const { documentKey: policeOfficer } = next;
-      logger.info("Deberiamos asignar al policia");
-
-      listenerController(policeOfficer._id);
-    } else if (operationType === "insert") {
-      const { fullDocument: policeOfficer } = next;
-
-      listenerController(policeOfficer._id);
+    if (status === "BUSY") {
+      return;
     }
-  });
-}
+    const { documentKey: policeOfficer } = next;
+    logger.info("Deberiamos asignar al policia");
+
+    listenerController(policeOfficer._id);
+  } else if (operationType === "insert") {
+    const { fullDocument: policeOfficer } = next;
+
+    listenerController(policeOfficer._id);
+  }
+};
 
 const listenerController = async (policeOfficerId) => {
   //Get one stolen bike case
