@@ -1,0 +1,19 @@
+definitions:
+  responses:
+    Login:
+      type: object
+      properties:
+        _id:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+        role_id:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        token:
+          type: string

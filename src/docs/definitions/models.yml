@@ -1,0 +1,28 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        full_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role_id:
+          type: string
+          format: ObjectId
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - full_name
+        - email
+        - password
+        - role_id

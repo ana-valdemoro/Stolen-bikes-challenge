@@ -1,0 +1,30 @@
+/auth/login:
+  post:
+    summary: Login
+    tags:
+      - Auth
+    requestBody:
+      description: Request token for an user
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/definitions/requestBodies/Login"
+
+    responses:
+      200:
+        description: User model with a valid token
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/responses/Login"
+
+      # 401:
+      #   schema:
+      #     $ref: "#/definitions/UnauthorizedError"
+      # 422:
+      #   schema:
+      #     $ref: "#/definitions/ValidationError"
+      # 500:
+      #   schema:
+      #     $ref: "#/definitions/ServerError"

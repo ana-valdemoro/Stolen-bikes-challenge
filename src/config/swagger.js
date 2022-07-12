@@ -9,13 +9,15 @@ const swaggerDefinition = {
     version,
   },
   servers: [{ url: "http://localhost:4000" }],
-  basePath: "/api/v1",
+  basePath: "/",
 };
-let pathToCheck = path.join(__dirname, "/../docs/**/*.yml");
-console.log(pathToCheck);
 const options = {
   swaggerDefinition,
-  apis: [path.join(__dirname, "/../docs/**/*.yml")],
+  apis: [
+    path.join(__dirname, "/../docs/**/*.js"),
+    path.join(__dirname, "/../docs/**/*.yml"),
+    path.join(__dirname, "/../docs/**/*.yaml"),
+  ],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
