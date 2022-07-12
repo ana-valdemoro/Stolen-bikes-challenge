@@ -1,7 +1,7 @@
 import boom from "@hapi/boom";
 import logger from "../../../config/winston";
 import { getUserByEmail, create } from "../users/users.service";
-import { getRoleByName } from "../role/role.service";
+import { BIKE_OWNER, getRoleByName } from "../role/role.service";
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
@@ -47,7 +47,7 @@ export const register = async (req, res, next) => {
   let user;
 
   try {
-    const { _id: id } = await getRoleByName("Bike Owner");
+    const { _id: id } = await getRoleByName(BIKE_OWNER);
 
     user = await create({
       full_name: fullName,

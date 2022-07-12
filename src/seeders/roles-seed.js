@@ -1,20 +1,22 @@
 import db from "../config/db";
+import {
+  BIKE_OWNER,
+  DIRECTOR,
+  POLICE_OFFICER,
+} from "../features/api/role/role.service";
 import { Role } from "../models/index";
 
 // Stablish database connection
 db.connect();
 const roles = [
   {
-    name: "Police Director Department",
-    permissions: "DIRECTOR",
+    name: DIRECTOR,
   },
   {
-    name: "Police Officer",
-    permissions: "POLICE_OFFICER",
+    name: POLICE_OFFICER,
   },
   {
-    name: "Bike Owner",
-    permissions: "BIKE_OWNER",
+    name: BIKE_OWNER,
   },
 ];
 
