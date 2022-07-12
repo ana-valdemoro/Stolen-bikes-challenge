@@ -26,3 +26,61 @@ components:
         - email
         - password
         - role_id
+
+    BikeOwner:
+      type: object
+      properties:
+        full_name:
+          type: string
+        _id:
+          type: string
+          format: ObjectId
+      required:
+        - full_name
+        - _id
+
+    StolenBike:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        color:
+          type: string
+        date:
+          type: string
+          format: date-time
+        thief_description:
+          type: string
+        address:
+          type: string
+        license_number:
+          type: string
+        type:
+          type: string
+        bike_owner:
+          type: object
+          $ref: "#/components/schemas/BikeOwner"
+        police_officer_id:
+          type: string
+          format: ObjectId
+        status:
+          type: string
+          enum: [UNASSIGNED, IN PROCESS]
+          default: UNASSIGNED
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - color
+        - date
+        - thief_description
+        - address
+        - license_number
+        - type
+        - bike_owner
+        - police_officer_id
+        - status
