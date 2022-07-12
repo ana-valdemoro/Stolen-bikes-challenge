@@ -17,6 +17,7 @@ export const PoliceOfficerSchema = new mongoose.Schema(
       required: true,
       type: mongoose.Types.ObjectId,
       ref: "Users",
+      unique: true,
     },
   },
   {
