@@ -15,7 +15,6 @@ const opts = {
 export const defineJWTStrategy = () => {
   passport.use(
     new JwtStrategy(opts, async (jwtPayload, done) => {
-      logger.info(jwtPayload);
       const expirationDate = new Date(jwtPayload.exp * 1000);
 
       if (expirationDate < new Date()) {

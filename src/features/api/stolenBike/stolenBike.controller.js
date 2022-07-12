@@ -61,7 +61,7 @@ const resolveStolenBike = async (req, res, next) => {
       status: "FREE",
     });
   } catch (error) {
-    logger.error(`${error}`);
+    logger.error(error);
   }
 
   return res
