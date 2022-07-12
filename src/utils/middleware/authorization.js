@@ -1,10 +1,11 @@
 import boom from "@hapi/boom";
 import logger from "../../config/winston";
+import { DIRECTOR, POLICE_OFFICER } from "../../features/api/role/role.service";
 
 export const hasPoliceOfficerPermissions = (req, res, next) => {
   const { user } = req;
 
-  if (user.role.name === "Police Officer") {
+  if (user.role.name === POLICE_OFFICER) {
     return next();
   }
 
@@ -21,7 +22,7 @@ export const hasPoliceOfficerPermissions = (req, res, next) => {
 export const hasDirectorPermissions = (req, res, next) => {
   const { user } = req;
 
-  if (user.role.name === "Police Director Department") {
+  if (user.role.name === DIRECTOR) {
     return next();
   }
 
@@ -41,7 +42,7 @@ export const hasPermissions = (req, res, next) => {
     role: { name },
   } = user;
 
-  if (name === "Police Director Department" || name === "Police Officer") {
+  if (name === DIRECTOR || name === POLICE_OFFICER) {
     return next();
   }
 

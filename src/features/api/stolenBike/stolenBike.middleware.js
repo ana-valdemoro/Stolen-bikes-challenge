@@ -1,6 +1,7 @@
 import boom from "@hapi/boom";
 import logger from "../../../config/winston";
 import policeOfficerService from "../policeOfficer/policeOfficer.service";
+import { BIKE_OWNER } from "../role/role.service";
 import { getBikeOwnerUser } from "../users/users.service";
 import stolenBikeService from "./stolenBike.service";
 
@@ -45,7 +46,7 @@ export async function loadBikeOwner(req, res, next) {
   const { role } = user;
   let bikeOwner;
 
-  if (role.name === "Bike Owner") {
+  if (role.name === BIKE_OWNER) {
     bikeOwner = {
       _id: user._id,
       full_name: user.full_name,
