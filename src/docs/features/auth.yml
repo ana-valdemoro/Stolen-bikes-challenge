@@ -18,13 +18,18 @@
           application/json:
             schema:
               $ref: "#/definitions/responses/Login"
-
-      # 401:
-      #   schema:
-      #     $ref: "#/definitions/UnauthorizedError"
-      # 422:
-      #   schema:
-      #     $ref: "#/definitions/ValidationError"
-      # 500:
-      #   schema:
-      #     $ref: "#/definitions/ServerError"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/UnauthorizedError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ValidationError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ServerError"
