@@ -45,7 +45,7 @@ export const SolvedStolenBikeSchema = new mongoose.Schema(
         uuid: "123456789",
       },
     },
-    police_id: {
+    police_officer_id: {
       required: false,
       type: mongoose.Types.ObjectId,
       default: null,

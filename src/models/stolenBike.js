@@ -41,7 +41,7 @@ export const StolenBikeSchema = new mongoose.Schema(
       required: true,
       type: bikeOwnerSchema,
     },
-    police_id: {
+    police_officer_id: {
       ref: "policeofficer",
       type: mongoose.Schema.Types.ObjectId,
       unique: true,
@@ -66,8 +66,8 @@ export const StolenBikeSchema = new mongoose.Schema(
 
 StolenBikeSchema.methods.toFormatPolice = function () {
   const stolenBike = this.toJSON();
-  const police = stolenBike.police_id;
-  delete stolenBike.police_id;
+  const police = stolenBike.police_officer_id;
+  delete stolenBike.police_officer_id;
   stolenBike.police_officer = police;
 
   return stolenBike;

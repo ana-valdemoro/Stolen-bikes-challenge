@@ -13,7 +13,7 @@ const createStolenBike = async (req, res, next) => {
   const { bikeOwner, policeOfficer } = res.locals;
 
   if (policeOfficer) {
-    bike.police_id = policeOfficer._id;
+    bike.police_officer_id = policeOfficer._id;
     bike.status = "IN PROCESS";
   }
 
@@ -57,7 +57,7 @@ const resolveStolenBike = async (req, res, next) => {
   }
 
   try {
-    await policeOfficerService.update(solvedCreatedBike.police_id, {
+    await policeOfficerService.update(solvedCreatedBike.police_officer_id, {
       status: "FREE",
     });
   } catch (error) {

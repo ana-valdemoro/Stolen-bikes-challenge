@@ -61,7 +61,7 @@ const listenerController = async (policeOfficerId) => {
     try {
       updatedBike = await stolenBikeService.update(unassignedBike._id, {
         status: "IN PROCESS",
-        police_id: policeOfficerId,
+        police_officer_id: policeOfficerId,
       });
     } catch (error) {
       logger.error(error);
