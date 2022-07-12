@@ -15,7 +15,7 @@ const baseRoute = "/";
 
 if (config.env !== "production") {
   router.use(
-    `${baseRoute}api-doc`,
+    `${baseRoute}api-docs`,
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpec)
   );
