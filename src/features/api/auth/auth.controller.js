@@ -11,35 +11,15 @@ export const login = async (req, res, next) => {
   try {
     user = await getUserByEmail(email);
   } catch (error) {
-    logger.error(`${error}`);
+    logger.error(error);
     return next(boom.badImplementation(error.message));
   }
 
-  if (!user) {
+  if (!user || !user.hasValidPassword(password)) {
     return next(boom.unauthorized("Email or Password is not valid"));
   }
 
-  try {
-    const userHasValidPassword = await user.validPassword(password);
-
-    if (!userHasValidPassword) {
-      return next(boom.unauthorized("Email or Password is not valid"));
-    }
-  } catch (error) {
-    logger.error(`${error}`);
-    return next(boom.badRequest(error.message));
-  }
-
-  let response;
-
-  try {
-    response = await user.toAuthJSON();
-  } catch (error) {
-    logger.error(`${error}`);
-    return next(boom.badRequest(error.message));
-  }
-
-  return res.json(response);
+  return res.json(user.toAuthJSON());
 };
 
 export const register = async (req, res, next) => {
