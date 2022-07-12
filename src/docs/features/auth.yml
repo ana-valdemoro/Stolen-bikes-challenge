@@ -59,3 +59,39 @@
           application/json:
             schema:
               $ref: "#/definitions/ValidationError"
+
+/auth/police-officer/stolen-bike:
+  get:
+    summary: Obtains the stolen bike assigned to the logged-in police officer.
+    tags:
+      - Auth
+    security:
+      - JWT: []
+    responses:
+      200:
+        description: Stolen bike model
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StolenBike"
+      204:
+        description: Police officer hasn't assigned any stolen bike
+        content:
+          application/json:
+            schema:
+            type: object
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/UnauthorizedError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ValidationError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ServerError"

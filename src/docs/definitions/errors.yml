@@ -25,6 +25,15 @@ definitions:
             type: string
             example: An internal server error occurred
 
+  NotFoundError:
+    allOf:
+      - $ref: "#/definitions/Error"
+      - title: NotFoundError
+      - properties:
+          statusCode:
+            type: integer
+            format: int32
+            example: 404
   UnauthorizedError:
     allOf:
       - $ref: "#/definitions/Error"
@@ -40,6 +49,15 @@ definitions:
           message:
             type: string
             example: The email or password are not valid
+  ForbiddenError:
+    allOf:
+      - $ref: "#/definitions/Error"
+      - title: ForbiddenError
+      - properties:
+          statusCode:
+            type: integer
+            format: int32
+            example: 403
   ValidationError:
     allOf:
       - $ref: "#/definitions/Error"
