@@ -16,14 +16,14 @@ export const login = async (req, res, next) => {
   }
 
   if (!user) {
-    return next(boom.unauthorized("User not found"));
+    return next(boom.unauthorized("Email or Password is not valid"));
   }
 
   try {
     const userHasValidPassword = await user.validPassword(password);
 
     if (!userHasValidPassword) {
-      return next(boom.unauthorized("Password is not valid"));
+      return next(boom.unauthorized("Email or Password is not valid"));
     }
   } catch (error) {
     logger.error(`${error}`);
