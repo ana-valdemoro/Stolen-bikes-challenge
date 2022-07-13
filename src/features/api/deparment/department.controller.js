@@ -15,6 +15,12 @@ const createDeparment = async (req, res, next) => {
   try {
     department = await departmentService.create(departmentToCreate);
   } catch (error) {
+    if (error.code === 11000 && error?.keyPattern) {
+      const duplicatedField = Object.keys(error.keyValue)[0];
+      return next(
+        boom.badData(`A department with this ${duplicatedField} already exists`)
+      );
+    }
     logger.error(`${error}`);
     return next(boom.badData(error.message));
   }
