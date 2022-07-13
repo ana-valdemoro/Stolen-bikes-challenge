@@ -31,10 +31,10 @@ describe("Stolen bike service test suite", () => {
       }).not.toThrow();
     });
 
-    it("Should be created without police_id", async () => {
+    it("Should be created without police_officer_id", async () => {
       const createdStolenBike = await stolenBikeService.create(mockStolenBike);
 
-      expect(createdStolenBike).toHaveProperty("police_id", undefined);
+      expect(createdStolenBike).toHaveProperty("police_officer_id", undefined);
       expect(createdStolenBike).toHaveProperty("status", "UNASSIGNED");
     });
 
@@ -52,10 +52,10 @@ describe("Stolen bike service test suite", () => {
       await expect(stolenBikeService.create(bike)).rejects.toThrow();
     });
 
-    it("police_id is repeated", async () => {
+    it("police_officer_id is repeated", async () => {
       const bikeWithPolice = {
         ...mockStolenBike,
-        police_id: new mongoose.Types.ObjectId(),
+        police_officer_id: new mongoose.Types.ObjectId(),
       };
       await stolenBikeService.create(bikeWithPolice);
       await expect(stolenBikeService.create(bikeWithPolice)).rejects.toThrow();
