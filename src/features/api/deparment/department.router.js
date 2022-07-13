@@ -14,8 +14,8 @@ router.get("/", hasPermissions, listDepartments);
 router.post(
   "/",
   hasDirectorPermissions,
-  loadDirectorDepartment,
   validator.createDeparment,
+  loadDirectorDepartment,
   createDeparment
 );
 
