@@ -34,6 +34,12 @@ components:
             type: integer
             format: int32
             example: 404
+          error:
+            type: string
+            example: Not found
+          message:
+            type: string
+            example: stolen bike cannot be found
   UnauthorizedError:
     allOf:
       - $ref: "#/components/Error"

@@ -126,3 +126,25 @@ components:
       required:
         - director_department
         - name
+
+    PoliceOfficer:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        status:
+          type: string
+          enum: [BUSY, FREE]
+          default: FREE
+        department_id:
+          type: string
+          format: ObjectId
+        user_id:
+          type: string
+          format: ObjectId
+      required:
+        - department_id
+        - _id
+        - user_id
+        - status

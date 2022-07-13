@@ -116,3 +116,42 @@
           application/json:
             schema:
               $ref: "#/components/ValidationError"
+
+/stolen-bikes/{stolenBikeId}:
+  get:
+    summary: Get one stolen bike
+    description: Accessible to police officers and managers
+    tags:
+      - Stolen bikes
+    security:
+      - JWT: []
+    parameters:
+      - in: path
+        name: stolenBikeId
+        required: true
+        schema:
+          type:
+          minimum: 24
+        description: The stolen bike Id
+    responses:
+      200:
+        description: Stolen Bike model with police officer data and Department
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/StolenBikeWithPoliceOfficerAndDepartment"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      404:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/NotFoundError"
