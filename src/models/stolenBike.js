@@ -22,6 +22,7 @@ export const StolenBikeSchema = new mongoose.Schema(
     license_number: {
       required: true,
       type: String,
+      unique: true,
     },
     type: {
       required: true,
@@ -46,11 +47,6 @@ export const StolenBikeSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    // toJSON: {
-    //   transform(doc, ret) {
-    //     delete ret._id;
-    //   },
-    // },
   }
 );
 
