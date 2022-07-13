@@ -35,8 +35,12 @@ const createStolenBike = async (req, res, next) => {
 const resolveStolenBike = async (req, res, next) => {
   const { stolenBike } = res.locals;
 
-  if (!stolenBike) {
-    return next(boom.notFound("Stolen Bike to resolve cannot be found"));
+  if (stolenBike.status !== "IN PROCESS") {
+    return next(
+      boom.unauthorized(
+        "It is not possible to solve a stolen bike that has not IN PROCESS status"
+      )
+    );
   }
   let {
     _doc: { status, ...solvedStolenBike },
