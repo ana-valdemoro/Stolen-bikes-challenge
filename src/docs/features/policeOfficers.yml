@@ -1,8 +1,8 @@
-/departments:
+/police-officers:
   get:
-    summary: List all departments
+    summary: List all police officers
     tags:
-      - Department
+      - Police officers
     security:
       - JWT: []
     parameters:
@@ -15,10 +15,11 @@
         name: pageSize
         schema:
           type: integer
-        description: The number of items to return. API default value is 10<br><br> In case you want to gell all departments in one page, set pageSize to -1.
+        description: The number of items to return. API default value is 10<br><br> In case you want to gell all police officers in one page, set pageSize to -1.
+
     responses:
       200:
-        description: Array of departments
+        description: A paginated response from police officers
         content:
           application/json:
             schema:
@@ -29,45 +30,29 @@
                     data:
                       type: array
                       items:
-                        $ref: "#/components/schemas/Department"
+                        $ref: "#/components/schemas/PoliceOfficer"
+
       401:
         content:
           application/json:
             schema:
               $ref: "#/components/UnauthorizedError"
+      403:
+        description: A bike owner does not have access
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+
+      422:
+        description: Query params validation fails
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
 
       500:
         content:
           application/json:
             schema:
               $ref: "#/components/ServerError"
-
-  post:
-    summary: Create a department by a Police director department
-    tags:
-      - Department
-    security:
-      - JWT: []
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/requestBodies/Department"
-    responses:
-      201:
-        description: Department successfully created
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Department"
-      403:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/ForbiddenError"
-      422:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/ValidationError"
