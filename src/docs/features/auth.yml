@@ -9,7 +9,7 @@
       content:
         application/json:
           schema:
-            $ref: "#/definitions/requestBodies/Login"
+            $ref: "#/components/requestBodies/Login"
 
     responses:
       200:
@@ -17,22 +17,22 @@
         content:
           application/json:
             schema:
-              $ref: "#/definitions/responses/Login"
+              $ref: "#/components/responses/Login"
       401:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/UnauthorizedError"
+              $ref: "#/components/UnauthorizedError"
       422:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ValidationError"
+              $ref: "#/components/ValidationError"
       500:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ServerError"
+              $ref: "#/components/ServerError"
 
 /auth/register:
   post:
@@ -45,7 +45,7 @@
       content:
         application/json:
           schema:
-            $ref: "#/definitions/requestBodies/Register"
+            $ref: "#/components/requestBodies/Register"
 
     responses:
       201:
@@ -53,12 +53,12 @@
         content:
           application/json:
             schema:
-              $ref: "#/definitions/responses/Register"
+              $ref: "#/components/responses/Register"
       422:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ValidationError"
+              $ref: "#/components/ValidationError"
 
 /auth/police-officer/stolen-bike:
   get:
@@ -84,22 +84,22 @@
         content:
           application/json:
             schema:
-              $ref: "#/definitions/UnauthorizedError"
+              $ref: "#/components/UnauthorizedError"
       403:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ForbiddenError"
+              $ref: "#/components/ForbiddenError"
       422:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ValidationError"
+              $ref: "#/components/ValidationError"
       500:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ServerError"
+              $ref: "#/components/ServerError"
   post:
     summary: Solve the stolen bike to current logged-in police officer
     tags:
@@ -117,19 +117,19 @@
         content:
           application/json:
             schema:
-              $ref: "#/definitions/UnauthorizedError"
+              $ref: "#/components/UnauthorizedError"
       403:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ForbiddenError"
+              $ref: "#/components/ForbiddenError"
       422:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ValidationError"
+              $ref: "#/components/ValidationError"
       500:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/ServerError"
+              $ref: "#/components/ServerError"

@@ -39,6 +39,18 @@ components:
         - full_name
         - _id
 
+    DirectorDepartment:
+      type: object
+      properties:
+        full_name:
+          type: string
+        _id:
+          type: string
+          format: ObjectId
+      required:
+        - full_name
+        - _id
+
     StolenBike:
       type: object
       properties:
@@ -93,3 +105,24 @@ components:
               type: string
               default: SOLVED
               enum: null
+
+    Department:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        name:
+          type: string
+        director_department:
+          type: object
+          $ref: "#/components/schemas/DirectorDepartment"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - director_department
+        - name
