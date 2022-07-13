@@ -41,3 +41,33 @@
           application/json:
             schema:
               $ref: "#/components/ServerError"
+
+  post:
+    summary: Create a department by a police director
+    tags:
+      - Department
+    security:
+      - JWT: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/Department"
+    responses:
+      201:
+        description: Department successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Department"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"

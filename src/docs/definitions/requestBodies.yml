@@ -13,3 +13,10 @@ components:
         - properties:
             fullName:
               type: string
+    Department:
+      type: object
+      properties:
+        name:
+          type: string
+        directorDepartmentId:
+          type: string
