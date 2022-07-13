@@ -100,16 +100,13 @@ const getStolenBike = async (req, res, next) => {
   try {
     stolenBike = await stolenBikeService.getByIdWithPoliceData(stolenBikeId);
   } catch (error) {
-    return next(boom.badRequest(error.message));
+    return next(boom.badImplementation(error.message));
   }
 
-  let response;
-  try {
-    response = await stolenBike.toFormatPolice();
-  } catch (error) {
-    logger.error(error);
-    return next(boom.badRequest(error.message));
+  if (!stolenBike) {
+    return next(boom.notFound("Cannot found a stolen bike with that id"));
   }
+  let response = stolenBike.toFormatPolice();
 
   return res.json(response);
 };

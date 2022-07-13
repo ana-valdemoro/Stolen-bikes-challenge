@@ -20,7 +20,7 @@ const router = Router();
 
 router.get("/", hasPermissions, validator.queryParams, listStolenBike);
 
-router.get("/:stolenBikeId", hasPermissions, getStolenBike);
+router.get("/:stolenBikeId", hasPermissions, validator.getById, getStolenBike);
 
 router.post(
   "/",

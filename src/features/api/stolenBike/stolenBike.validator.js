@@ -66,4 +66,20 @@ const queryParams = validate(
     abortEarly: false,
   }
 );
-export default { createStolenBike, resolveStolenBike, queryParams };
+
+const getById = validate(
+  {
+    params: joi.object({
+      stolenBikeId: joi.string().length(24).required(),
+    }),
+  },
+  {
+    context: false,
+    statusCode: 422,
+    keyByField: true,
+  },
+  {
+    abortEarly: false,
+  }
+);
+export default { createStolenBike, resolveStolenBike, queryParams, getById };
