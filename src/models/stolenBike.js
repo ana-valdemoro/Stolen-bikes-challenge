@@ -1,15 +1,5 @@
+import { bikeOwnerSchema } from "./bikeOwner";
 import mongoose from "mongoose";
-
-const bikeOwnerSchema = new mongoose.Schema({
-  full_name: {
-    required: true,
-    type: String,
-  },
-  _id: {
-    required: true,
-    type: mongoose.Schema.Types.ObjectId,
-  },
-});
 
 export const StolenBikeSchema = new mongoose.Schema(
   {
