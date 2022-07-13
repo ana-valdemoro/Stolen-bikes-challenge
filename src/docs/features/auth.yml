@@ -85,6 +85,44 @@
           application/json:
             schema:
               $ref: "#/definitions/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ForbiddenError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ValidationError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ServerError"
+  post:
+    summary: Solve the stolen bike to current logged-in police officer
+    tags:
+      - Auth
+    security:
+      - JWT: []
+    responses:
+      200:
+        description: Solved Stolen bike model
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SolvedStolenBike"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/ForbiddenError"
       422:
         content:
           application/json:

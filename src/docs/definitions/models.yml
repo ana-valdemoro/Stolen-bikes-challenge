@@ -84,3 +84,12 @@ components:
         - bike_owner
         - police_officer_id
         - status
+
+    SolvedStolenBike:
+      allOf:
+        - $ref: "#/components/schemas/StolenBike"
+        - properties:
+            status:
+              type: string
+              default: SOLVED
+              enum: null
