@@ -34,7 +34,12 @@ const create = async (data) => {
   return await PoliceOfficer.create(dataToCreate);
 };
 
-const list = async () => PoliceOfficer.find({});
+const list = async (options) => {
+  const { page, limit } = options;
+  const offset = page * limit - limit;
+
+  return PoliceOfficer.find({}).skip(offset).limit(limit);
+};
 
 const update = async (id, data) =>
   PoliceOfficer.findByIdAndUpdate(id, data, { new: true });
@@ -70,6 +75,8 @@ const remove = async (policeOfficer) => {
   return removedPoliceOfficer;
 };
 
+const countDocuments = async () => PoliceOfficer.countDocuments();
+
 const getById = async (id) => PoliceOfficer.findById(id);
 export default {
   create,
@@ -81,4 +88,5 @@ export default {
   getByIdWithDepartmentAndUser,
   remove,
   getById,
+  countDocuments,
 };

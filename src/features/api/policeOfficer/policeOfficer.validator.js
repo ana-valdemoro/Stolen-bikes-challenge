@@ -1,4 +1,4 @@
-import joi, { required } from "joi";
+import joi from "joi";
 import { validate } from "express-validation";
 
 const createPoliceOfficer = validate(
