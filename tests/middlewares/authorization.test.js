@@ -5,6 +5,10 @@ import {
 } from "../../src/features/api/role/role.service";
 import { hasPermissions } from "../../src/utils/middleware/authorization";
 
+jest.mock("../../src/config/winston", () => ({
+  error: jest.fn(),
+}));
+
 jest.mock("@hapi/boom", () => ({
   forbidden: jest.fn().mockReturnValue(new Error(`My mocked error message`)),
 }));
