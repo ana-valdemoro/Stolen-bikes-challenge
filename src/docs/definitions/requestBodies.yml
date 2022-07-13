@@ -20,3 +20,28 @@ components:
           type: string
         directorDepartmentId:
           type: string
+
+    StolenBike:
+      type: object
+      properties:
+        color:
+          type: string
+          default: Blue
+        date:
+          type: string
+          default: 2022-03-25
+        thiefDescription:
+          type: string
+          default: A very weird person with yellow jeans
+        address:
+          type: string
+          default: Sevilla Street
+        type:
+          type: string
+          default: Suzuki
+        licenseNumber:
+          type: string
+          default: 52sdf7sd
+        bikeOwnerId:
+          type: string
+          default: Required in case the logged-in user does not have the role of bicycle owner.

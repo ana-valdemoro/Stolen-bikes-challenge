@@ -80,3 +80,39 @@
           application/json:
             schema:
               $ref: "#/components/ServerError"
+
+  post:
+    summary: Create a stolen bike for any logged-in user
+    description: It is necessary to indicate bikeOwnerId in request body, if user does have not role bike owner
+    tags:
+      - Stolen bikes
+    security:
+      - JWT: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/StolenBike"
+    responses:
+      201:
+        description: Stolen Bike successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StolenBike"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
