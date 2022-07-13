@@ -1,8 +1,8 @@
-definitions:
+components:
   responses:
     Login:
       allOf:
-        - $ref: "#/definitions/requestBodies/Register"
+        - $ref: "#/components/requestBodies/Register"
         - properties:
             token:
               type: string
@@ -22,3 +22,21 @@ definitions:
           type: string
         updatedAt:
           type: string
+
+    Pagination:
+      type: object
+      properties:
+        page_count:
+          type: integer
+          example: 1
+        page_size:
+          type: integer
+          example: 10
+        page_number:
+          type: integer
+          example: 1
+        total_pages:
+          type: integer
+          example: 1
+        data:
+          type: array

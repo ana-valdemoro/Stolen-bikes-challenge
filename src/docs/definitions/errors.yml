@@ -1,4 +1,4 @@
-definitions:
+components:
   Error:
     title: Error
     type: object
@@ -11,7 +11,7 @@ definitions:
 
   ServerError:
     allOf:
-      - $ref: "#/definitions/Error"
+      - $ref: "#/components/Error"
       - title: InternalServerError
       - properties:
           statusCode:
@@ -27,7 +27,7 @@ definitions:
 
   NotFoundError:
     allOf:
-      - $ref: "#/definitions/Error"
+      - $ref: "#/components/Error"
       - title: NotFoundError
       - properties:
           statusCode:
@@ -36,7 +36,7 @@ definitions:
             example: 404
   UnauthorizedError:
     allOf:
-      - $ref: "#/definitions/Error"
+      - $ref: "#/components/Error"
       - title: UnauthorizedError
       - properties:
           statusCode:
@@ -51,7 +51,7 @@ definitions:
             example: The email or password are not valid
   ForbiddenError:
     allOf:
-      - $ref: "#/definitions/Error"
+      - $ref: "#/components/Error"
       - title: ForbiddenError
       - properties:
           statusCode:
@@ -63,7 +63,7 @@ definitions:
             example: User Director Police Department has no authorization to /auth/police-officer/stolen-bike
   ValidationError:
     allOf:
-      - $ref: "#/definitions/Error"
+      - $ref: "#/components/Error"
       - title: ValidationError
       - properties:
           statusCode:

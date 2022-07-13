@@ -1,4 +1,4 @@
-definitions:
+components:
   requestBodies:
     Login:
       type: object
@@ -9,7 +9,7 @@ definitions:
           type: string
     Register:
       allOf:
-        - $ref: "#/definitions/requestBodies/Login"
+        - $ref: "#/components/requestBodies/Login"
         - properties:
             fullName:
               type: string
