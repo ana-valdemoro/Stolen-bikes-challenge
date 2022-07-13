@@ -100,6 +100,7 @@
           application/json:
             schema:
               $ref: "#/components/ServerError"
+/auth/police-officer/stolen-bike/solve:
   post:
     summary: Solve the stolen bike to current logged-in police officer
     tags:
