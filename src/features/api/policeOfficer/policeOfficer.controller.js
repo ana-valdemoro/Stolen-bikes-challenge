@@ -55,7 +55,11 @@ const getPoliceOfficer = async (req, res, next) => {
       policeOfficerId
     );
   } catch (error) {
-    return next(boom.badRequest(error));
+    return next(boom.badImplementation());
+  }
+
+  if (!policeOfficer) {
+    return next(boom.notFound("Police officer not found"));
   }
 
   return res.json(policeOfficer.toFormatPoliceOfficer());

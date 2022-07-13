@@ -19,4 +19,20 @@ const createPoliceOfficer = validate(
   }
 );
 
-export default { createPoliceOfficer };
+const getById = validate(
+  {
+    params: joi.object({
+      policeOfficerId: joi.string().length(24).required(),
+    }),
+  },
+  {
+    context: false,
+    statusCode: 422,
+    keyByField: true,
+  },
+  {
+    abortEarly: false,
+  }
+);
+
+export default { createPoliceOfficer, getById };
