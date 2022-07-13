@@ -58,6 +58,9 @@ definitions:
             type: integer
             format: int32
             example: 403
+          message:
+            type: string
+            example: User Director Police Department has no authorization to /auth/police-officer/stolen-bike
   ValidationError:
     allOf:
       - $ref: "#/definitions/Error"
