@@ -4,13 +4,16 @@ import {
   POLICE_OFFICER,
 } from "../../src/features/api/role/role.service";
 import { hasPermissions } from "../../src/utils/middleware/authorization";
+import logger from "../../src/config/winston";
 
 jest.mock("../../src/config/winston", () => ({
   error: jest.fn(),
 }));
 
 jest.mock("@hapi/boom", () => ({
-  forbidden: jest.fn().mockReturnValue(new Error(`My mocked error message`)),
+  forbidden: jest
+    .fn()
+    .mockImplementation((errMessage) => new Error(errMessage)),
 }));
 
 describe("hasPermissions middleware", () => {
@@ -35,6 +38,7 @@ describe("hasPermissions middleware", () => {
     hasPermissions(mockRequest, mockResponse, nextFunction);
 
     expect(nextFunction).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledTimes(0);
     expect(nextFunction).toHaveBeenCalledWith();
   });
 
@@ -45,6 +49,7 @@ describe("hasPermissions middleware", () => {
     hasPermissions(mockRequest, mockResponse, nextFunction);
 
     expect(nextFunction).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledTimes(0);
     expect(nextFunction).toHaveBeenCalledWith();
   });
 
@@ -59,8 +64,9 @@ describe("hasPermissions middleware", () => {
     hasPermissions(mockRequest, mockResponse, nextFunction);
 
     expect(nextFunction).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledTimes(1);
     expect(nextFunction).toHaveBeenCalledWith(
-      new Error("My mocked error message")
+      new Error("User bike owner has no authorization to /esto-es-una-prueba/")
     );
   });
 });
