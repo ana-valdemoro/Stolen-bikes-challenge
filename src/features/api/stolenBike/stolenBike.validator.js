@@ -42,7 +42,7 @@ const resolveStolenBike = validate(
   }
 );
 
-const searchList = validate(
+const queryParams = validate(
   {
     query: joi.object({
       page: joi.number(),
@@ -66,4 +66,4 @@ const searchList = validate(
     abortEarly: false,
   }
 );
-export default { createStolenBike, resolveStolenBike, searchList };
+export default { createStolenBike, resolveStolenBike, queryParams };

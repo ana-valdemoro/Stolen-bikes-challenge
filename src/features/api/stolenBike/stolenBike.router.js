@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   hasDirectorPermissions,
   hasPermissions,
-  hasPoliceOfficerPermissions,
 } from "../../../utils/middleware/authorization";
 import {
   createStolenBike,
@@ -19,7 +18,7 @@ import validator from "./stolenBike.validator";
 
 const router = Router();
 
-router.get("/", hasPermissions, validator.searchList, listStolenBike);
+router.get("/", hasPermissions, validator.queryParams, listStolenBike);
 
 router.get("/:stolenBikeId", hasPermissions, getStolenBike);
 
