@@ -43,7 +43,7 @@
               $ref: "#/components/ServerError"
 
   post:
-    summary: Create a department by a police director
+    summary: Create a department by a Police director department
     tags:
       - Department
     security:

@@ -36,7 +36,7 @@
 
 /auth/register:
   post:
-    summary: Register a bike Owner
+    summary: Self-Register of a bike Owner
     tags:
       - Auth
     requestBody:

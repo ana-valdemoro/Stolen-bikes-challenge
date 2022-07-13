@@ -130,7 +130,7 @@
         name: stolenBikeId
         required: true
         schema:
-          type:
+          type: string
           minimum: 24
         description: The stolen bike Id
     responses:
@@ -155,3 +155,51 @@
           application/json:
             schema:
               $ref: "#/components/NotFoundError"
+
+/stolen-bikes/{stolenBikeId}/solve:
+  post:
+    summary: Solve a stolen bike by a Police Director Department
+    tags:
+      - Stolen bikes
+    security:
+      - JWT: []
+    parameters:
+      - in: path
+        name: stolenBikeId
+        required: true
+        schema:
+          type: string
+          minimum: 24
+        description: The stolen bike Id
+    responses:
+      200:
+        description: Solved stolen bike model
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SolvedStolenBike"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      404:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/NotFoundError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ServerError"
