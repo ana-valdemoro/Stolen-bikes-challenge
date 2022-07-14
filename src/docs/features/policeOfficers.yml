@@ -1,6 +1,7 @@
 /police-officers:
   get:
     summary: List all police officers
+    description: Accessible to police officers and police director Department
     tags:
       - Police officers
     security:
@@ -135,6 +136,52 @@
           application/json:
             schema:
               $ref: "#/components/NotFoundError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ServerError"
+  delete:
+    summary: Delete one police officer by Id for any police director department
+    tags:
+      - Police officers
+    security:
+      - JWT: []
+    parameters:
+      - in: path
+        name: policeOfficerId
+        required: true
+        schema:
+          type: string
+          minimum: 24
+        description: The police officerId
+    responses:
+      204:
+        description: Police Officer successfully eliminated
+        content:
+          application/json:
+            schema:
+              type: object
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      404:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/NotFoundError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
       500:
         content:
           application/json:
