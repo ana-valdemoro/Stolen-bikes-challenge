@@ -58,8 +58,7 @@
             schema:
               $ref: "#/components/ServerError"
   post:
-    summary: Create a police officer for any police director department
-    description: It is necessary to indicate bikeOwnerId in request body, if user does have not role bike owner
+    summary: Create a police officer for a police director department
     tags:
       - Police officers
     security:
