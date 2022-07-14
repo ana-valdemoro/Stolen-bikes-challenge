@@ -120,7 +120,7 @@
 /stolen-bikes/{stolenBikeId}:
   get:
     summary: Get one stolen bike
-    description: Accessible to police officers and managers
+    description: Accessible to police officers and Police Director Department
     tags:
       - Stolen bikes
     security:

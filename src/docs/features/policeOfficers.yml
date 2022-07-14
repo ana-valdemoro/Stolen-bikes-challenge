@@ -56,3 +56,47 @@
           application/json:
             schema:
               $ref: "#/components/ServerError"
+
+/police-officers/{policeOfficerId}:
+  get:
+    summary: Get one police officer by Id
+    description: Accessible to police officers and police director Department
+    tags:
+      - Police officers
+    security:
+      - JWT: []
+    parameters:
+      - in: path
+        name: policeOfficerId
+        required: true
+        schema:
+          type: string
+          minimum: 24
+        description: The police officerId
+    responses:
+      200:
+        description: Police Officer model
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/GetOnePoliceOfficer"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      404:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/NotFoundError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ServerError"

@@ -69,3 +69,21 @@ components:
             police_officer:
               type: object
               $ref: "#/components/responses/PoliceOfficer"
+
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+
+    GetOnePoliceOfficer:
+      allOf:
+        - $ref: "#/components/responses/PoliceOfficer"
+        - properties:
+            user:
+              type: object
+              $ref: "#/components/responses/User"
