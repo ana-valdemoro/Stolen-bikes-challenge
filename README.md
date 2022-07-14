@@ -10,16 +10,18 @@ This project is a a backend infrastructure which try to solve the following prob
 
 It has beend added the basic requirement for this application, which are:
 
-1. Bike owners can report a stolen bike.
-2. A bike can have multiple characteristics: license number, color, type, full name of the owner, date, description of the theft, address where the bike was stolen, status of the case.
-3. Police have multiple departments that are responsible for stolen bikes.
-4. A department can have some amount of police officers who can work on stolen bike cases.
-5. The Police can scale their number of departments, and can increase the number of police officers per department.
-6. Each police officer should be able to search bikes by different characteristics in a database and see which department is responsible for a stolen bike case.
-7. New stolen bike cases should be automatically assigned to any free police officer in any department.
-8. A police officer can only handle one stolen bike case at a time.
-9. When the Police find a bike, the case is marked as resolved and the responsible police officer becomes available to take a new stolen bike case.
-10. The system should be able to assign unassigned stolen bike cases automatically when a police officer becomes available.
+**1.** Bike owners can report a stolen bike.  
+**2.** A bike can have multiple characteristics: license number, color, type, full name of the owner, date, description of the theft, address where the bike was stolen, status of the case.  
+**3.** Police have multiple departments that are responsible for stolen bikes.  
+**4.** A department can have some amount of police officers who can work on stolen bike cases.  
+**5.** The Police can scale their number of departments, and can increase the number of police officers per department.  
+**6.** Each police officer should be able to search bikes by different characteristics in a database and see which department is responsible for a stolen bike case.  
+**7.** New stolen bike cases should be automatically assigned to any free police officer in any department.  
+**8.** A police officer can only handle one stolen bike case at a time.  
+**9.** When the Police find a bike, the case is marked as resolved and the responsible police officer becomes available to take a new stolen bike case.  
+**10.** The system should be able to assign unassigned stolen bike cases automatically when a police officer becomes available.
+
+To restrict user access according to their role within the application. 3 middlewares have been implemented and are inside the `utils/middleware` folder
 
 Moreover, I have added Swagger to provide a friendly-UI to check the endpoints, pagination of the responses and a few unit tests.
 
