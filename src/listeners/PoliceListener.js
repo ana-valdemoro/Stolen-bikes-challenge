@@ -3,7 +3,7 @@ import logger from "../config/winston";
 import policeOfficerService from "../features/api/policeOfficer/policeOfficer.service";
 import stolenBikeService from "../features/api/stolenBike/stolenBike.service";
 
-export function createPoliceListener() {
+export function solveStolenBikeListener() {
   // open a Change Stream
   const policeOfficeCollection =
     mongoose.connection.collection("policeofficers");
@@ -13,18 +13,14 @@ export function createPoliceListener() {
     { status: "FREE" },
     options
   );
-
-  changeStream.on("change", setUpPoliceListener);
+  // Register to posible changes in policeOfficer collection
+  changeStream.on("change", assesPoliceOfficerChanges);
 
   return { changeStream, onDelete: () => changeStream.close() };
 }
 
-const setUpPoliceListener = (next) => {
+const assesPoliceOfficerChanges = (next) => {
   // set up a listener when change events are emitted
-  console.log(
-    "Recibidio un cambio dentro de police officer collection \t",
-    next
-  );
 
   const { operationType } = next;
 
@@ -35,7 +31,6 @@ const setUpPoliceListener = (next) => {
       return;
     }
     const { documentKey: policeOfficer } = next;
-    logger.info("Deberiamos asignar al policia");
 
     listenerController(policeOfficer._id);
   } else if (operationType === "insert") {
@@ -46,38 +41,59 @@ const setUpPoliceListener = (next) => {
 };
 
 const listenerController = async (policeOfficerId) => {
-  //Get one stolen bike case
+  const unassignedBike = await obtainAnStolenBike();
+
+  if (!unassignedBike) {
+    return;
+  }
+
+  const assignedStolenBike = await assignPoliceOfficerToStolenBike(
+    policeOfficerId,
+    unassignedBike._id
+  );
+
+  if (!assignedStolenBike) {
+    return;
+  }
+
+  await changePoliceOfficerStatusToBusy(policeOfficerId);
+};
+
+const obtainAnStolenBike = async () => {
   let unassignedBike;
   try {
     unassignedBike = await stolenBikeService.getOneUnsignedBike();
   } catch (error) {
     logger.error(error);
-    return;
+    return null;
   }
-  console.log("mi biici sin asignar", unassignedBike);
 
-  if (unassignedBike) {
-    let updatedBike;
-    try {
-      updatedBike = await stolenBikeService.update(unassignedBike._id, {
-        status: "IN PROCESS",
-        police_officer_id: policeOfficerId,
-      });
-    } catch (error) {
-      logger.error(error);
-      return;
-    }
+  return unassignedBike;
+};
 
-    if (updatedBike) {
-      console.log("Se ha podido asignar una bicicleta a un policia");
+const assignPoliceOfficerToStolenBike = async (
+  policeOfficerId,
+  stolenBikeId
+) => {
+  let updatedBike;
+  try {
+    updatedBike = await stolenBikeService.update(stolenBikeId, {
+      status: "IN PROCESS",
+      police_officer_id: policeOfficerId,
+    });
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+  return updatedBike;
+};
 
-      try {
-        await policeOfficerService.update(policeOfficerId, {
-          status: "BUSY",
-        });
-      } catch (error) {
-        logger.error(error);
-      }
-    }
+const changePoliceOfficerStatusToBusy = async (policeOfficerId) => {
+  try {
+    await policeOfficerService.update(policeOfficerId, {
+      status: "BUSY",
+    });
+  } catch (error) {
+    logger.error(error);
   }
 };
