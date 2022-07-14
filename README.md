@@ -4,7 +4,7 @@
 
 This project is a a backend infrastructure which try to solve the following problem:
 
-Stolen bikes are a typical problem in big cities. The Police want to be more efficient in resolving stolen bike cases. They decided to build a software that can automate their processes.
+> Stolen bikes are a typical problem in big cities. The Police want to be more efficient in resolving stolen bike cases. They decided to build a software that can automate their processes.
 
 ### Requirements
 
@@ -57,16 +57,15 @@ Inside `src` folder, It is subdivided into the following folders:
 ### Setup Guide
 
 1. **First** clone this respository with the command: `git clone https://github.com/ana-valdemoro/Stolen-bikes-challenge.git`
-   From the command line:
-2. **Second** Install all project dependencies with: `npm i`
+2. **Second** From the command line, install all project dependencies with: `npm i`
 3. **Third** At the root of the project, there is a `.env.example` file. Rename it to only `.env`. It contains part of the set-up variables of the application.
 4. **Fourth** try the project with: `npm run start:dev`
-5. **Fithf**: Swagger ui is running at `http://localhost:4000/api-docs/.` So, you can open your browser and interact with the application from it.
+5. **Fifth**: Swagger ui is running at `http://localhost:4000/api-docs/.` So, you can open your browser and interact with the application from it.
 
 ### Test
 
-Only It has been posible to add some unit test to:
-**StolenBikeService**: this are persistence test for which I configure a mongoDB in cache and test the create, getById and getOneUnAssignedStolen bike methods from its service.
+Only It has been posible to add some unit test to:  
+**StolenBikeService**: this are persistence test for which I configure a mongoDB in cache and test the create, getById and getOneUnAssignedStolen bike methods from its service  
 **Authorization**: this unit test suite try to check middleware function `hasPermissions`.
 
 To try the test, just run from the command line: `npm run test`
