@@ -8,7 +8,7 @@ import db from "./config/db";
 import config from "./config/index";
 import { handleValidationError } from "./errors/handleErrors";
 import logger from "./config/winston";
-import { solveStolenBikeListener } from "./listeners/PoliceListener";
+import { solveStolenBikeListener } from "./listeners/SolveStolenBikeListener";
 
 const app = express();
 
