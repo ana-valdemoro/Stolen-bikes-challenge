@@ -27,7 +27,6 @@
         name: date
         schema:
           type: date-format
-        example: 2022-04-08
         description: date of theft. It has iso format YYYY-MM-DD
       - in: query
         name: status

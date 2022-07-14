@@ -44,6 +44,7 @@
 
   post:
     summary: Create a department by a Police director department
+    description: The directorDepartmentId you can get it from the response of the login of a director
     tags:
       - Department
     security:
