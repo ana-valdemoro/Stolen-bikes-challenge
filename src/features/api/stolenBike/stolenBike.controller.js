@@ -16,20 +16,27 @@ const createStolenBike = async (req, res, next) => {
     bike.police_officer_id = policeOfficer._id;
     bike.status = "IN PROCESS";
   }
-
+  let stolenBike;
   try {
-    bike = await stolenBikeService.create({ ...bike, bike_owner: bikeOwner });
+    stolenBike = await stolenBikeService.create({
+      ...bike,
+      bike_owner: bikeOwner,
+    });
   } catch (error) {
     if (error.code === 11000 && error.keyPattern) {
       const duplicatedField = Object.keys(error.keyValue)[0];
-      logger.error(`A stolen_bike with this ${duplicatedField} already exists`);
+      return next(
+        boom.badData(
+          `A stolen bike with this ${duplicatedField} already exists`
+        )
+      );
     }
 
-    logger.error(`${error}`);
+    logger.error(error);
     return next(boom.badData(error.message));
   }
 
-  return res.status(201).json(stolenBikeService.toPublic(bike));
+  return res.status(201).json(stolenBikeService.toPublic(stolenBike));
 };
 
 const resolveStolenBike = async (req, res, next) => {
