@@ -56,6 +56,46 @@
           application/json:
             schema:
               $ref: "#/components/ServerError"
+  post:
+    summary: Create a police officer for any police director department
+    description: It is necessary to indicate bikeOwnerId in request body, if user does have not role bike owner
+    tags:
+      - Police officers
+    security:
+      - JWT: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/PoliceOfficer"
+    responses:
+      201:
+        description: Police Officer successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PoliceOfficer"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ServerError"
 
 /police-officers/{policeOfficerId}:
   get:

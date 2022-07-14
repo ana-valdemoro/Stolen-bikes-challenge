@@ -45,3 +45,15 @@ components:
         bikeOwnerId:
           type: string
           default: Required in case the logged-in user does not have the role of bicycle owner.
+
+    PoliceOfficer:
+      type: object
+      properties:
+        fullName:
+          type: string
+          default: Policia 10
+        email:
+          type: string
+          default: policia10@gmail.com
+        departmentId:
+          type: string
