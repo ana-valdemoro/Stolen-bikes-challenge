@@ -62,7 +62,7 @@ Inside `src` folder, It is subdivided into the following folders:
 2. **Second** From the command line, install all project dependencies with: `npm i`
 3. **Third** At the root of the project, there is a `.env.example` file. Rename it to only `.env`. It contains part of the set-up variables of the application.
 4. **Fourth** try the project with: `npm run start:dev`
-5. **Fifth**: Swagger ui is running at `http://localhost:4000/api-docs/.` So, you can open your browser and interact with the application from it.
+5. **Fifth**: Swagger ui is running at `http://localhost:4000/api-docs` So, you can open your browser and interact with the application from it.
 
 ### Test
 
