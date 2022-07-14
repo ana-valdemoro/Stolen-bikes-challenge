@@ -1,0 +1,150 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        full_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role_id:
+          type: string
+          format: ObjectId
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - full_name
+        - email
+        - password
+        - role_id
+
+    BikeOwner:
+      type: object
+      properties:
+        full_name:
+          type: string
+        _id:
+          type: string
+          format: ObjectId
+      required:
+        - full_name
+        - _id
+
+    DirectorDepartment:
+      type: object
+      properties:
+        full_name:
+          type: string
+        _id:
+          type: string
+          format: ObjectId
+      required:
+        - full_name
+        - _id
+
+    StolenBike:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        color:
+          type: string
+        date:
+          type: string
+          format: date-time
+        thief_description:
+          type: string
+        address:
+          type: string
+        license_number:
+          type: string
+        type:
+          type: string
+        bike_owner:
+          type: object
+          $ref: "#/components/schemas/BikeOwner"
+        police_officer_id:
+          type: string
+          format: ObjectId
+        status:
+          type: string
+          enum: [UNASSIGNED, IN PROCESS]
+          default: UNASSIGNED
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - color
+        - date
+        - thief_description
+        - address
+        - license_number
+        - type
+        - bike_owner
+        - police_officer_id
+        - status
+
+    SolvedStolenBike:
+      allOf:
+        - $ref: "#/components/schemas/StolenBike"
+        - properties:
+            status:
+              type: string
+              default: SOLVED
+              enum: null
+
+    Department:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        name:
+          type: string
+        director_department:
+          type: object
+          $ref: "#/components/schemas/DirectorDepartment"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - director_department
+        - name
+
+    PoliceOfficer:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        status:
+          type: string
+          enum: [BUSY, FREE]
+          default: FREE
+        department_id:
+          type: string
+          format: ObjectId
+        user_id:
+          type: string
+          format: ObjectId
+      required:
+        - department_id
+        - _id
+        - user_id
+        - status

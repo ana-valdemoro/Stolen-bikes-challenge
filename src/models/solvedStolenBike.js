@@ -1,15 +1,5 @@
 import mongoose from "mongoose";
-
-const bikeOwnerSchema = new mongoose.Schema({
-  full_name: {
-    required: true,
-    type: String,
-  },
-  _id: {
-    required: true,
-    type: mongoose.Schema.Types.ObjectId,
-  },
-});
+import { bikeOwnerSchema } from "./bikeOwner";
 
 export const SolvedStolenBikeSchema = new mongoose.Schema(
   {
@@ -40,12 +30,8 @@ export const SolvedStolenBikeSchema = new mongoose.Schema(
     bike_owner: {
       required: false,
       type: bikeOwnerSchema,
-      default: {
-        full_name: "Joana Doe",
-        uuid: "123456789",
-      },
     },
-    police_id: {
+    police_officer_id: {
       required: false,
       type: mongoose.Types.ObjectId,
       default: null,

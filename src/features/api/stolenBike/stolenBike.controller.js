@@ -13,30 +13,41 @@ const createStolenBike = async (req, res, next) => {
   const { bikeOwner, policeOfficer } = res.locals;
 
   if (policeOfficer) {
-    bike.police_id = policeOfficer._id;
+    bike.police_officer_id = policeOfficer._id;
     bike.status = "IN PROCESS";
   }
-
+  let stolenBike;
   try {
-    bike = await stolenBikeService.create({ ...bike, bike_owner: bikeOwner });
+    stolenBike = await stolenBikeService.create({
+      ...bike,
+      bike_owner: bikeOwner,
+    });
   } catch (error) {
     if (error.code === 11000 && error.keyPattern) {
       const duplicatedField = Object.keys(error.keyValue)[0];
-      logger.error(`A stolen_bike with this ${duplicatedField} already exists`);
+      return next(
+        boom.badData(
+          `A stolen bike with this ${duplicatedField} already exists`
+        )
+      );
     }
 
-    logger.error(`${error}`);
+    logger.error(error);
     return next(boom.badData(error.message));
   }
 
-  return res.status(201).json(stolenBikeService.toPublic(bike));
+  return res.status(201).json(stolenBikeService.toPublic(stolenBike));
 };
 
 const resolveStolenBike = async (req, res, next) => {
   const { stolenBike } = res.locals;
 
-  if (!stolenBike) {
-    return next(boom.notFound("Stolen Bike to resolve cannot be found"));
+  if (stolenBike.status !== "IN PROCESS") {
+    return next(
+      boom.unauthorized(
+        "It is not possible to solve a stolen bike that has not IN PROCESS status"
+      )
+    );
   }
   let {
     _doc: { status, ...solvedStolenBike },
@@ -57,11 +68,11 @@ const resolveStolenBike = async (req, res, next) => {
   }
 
   try {
-    await policeOfficerService.update(solvedCreatedBike.police_id, {
+    await policeOfficerService.update(solvedCreatedBike.police_officer_id, {
       status: "FREE",
     });
   } catch (error) {
-    logger.error(`${error}`);
+    logger.error(error);
   }
 
   return res
@@ -100,16 +111,13 @@ const getStolenBike = async (req, res, next) => {
   try {
     stolenBike = await stolenBikeService.getByIdWithPoliceData(stolenBikeId);
   } catch (error) {
-    return next(boom.badRequest(error.message));
+    return next(boom.badImplementation(error.message));
   }
 
-  let response;
-  try {
-    response = await stolenBike.toFormatPolice();
-  } catch (error) {
-    logger.error(error);
-    return next(boom.badRequest(error.message));
+  if (!stolenBike) {
+    return next(boom.notFound("Cannot found a stolen bike with that id"));
   }
+  let response = stolenBike.toFormatPolice();
 
   return res.json(response);
 };
@@ -118,9 +126,7 @@ const getAssignedStolenBike = async (req, res, next) => {
   const { stolenBike } = res.locals;
 
   if (!stolenBike) {
-    return res.json({
-      message: `Police officer ${req.user.full_name} is not currently assigned to any stolen bike cases`,
-    });
+    return res.status(204).json({});
   }
 
   return res.json(stolenBike);

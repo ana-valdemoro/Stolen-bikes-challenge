@@ -1,0 +1,59 @@
+components:
+  requestBodies:
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    Register:
+      allOf:
+        - $ref: "#/components/requestBodies/Login"
+        - properties:
+            fullName:
+              type: string
+    Department:
+      type: object
+      properties:
+        name:
+          type: string
+        directorDepartmentId:
+          type: string
+
+    StolenBike:
+      type: object
+      properties:
+        color:
+          type: string
+          default: Blue
+        date:
+          type: string
+          default: 2022-03-25
+        thiefDescription:
+          type: string
+          default: A very weird person with yellow jeans
+        address:
+          type: string
+          default: Sevilla Street
+        type:
+          type: string
+          default: Suzuki
+        licenseNumber:
+          type: string
+          default: 52sdf7sd
+        bikeOwnerId:
+          type: string
+          default: Required in case the logged-in user does not have the role of bicycle owner.
+
+    PoliceOfficer:
+      type: object
+      properties:
+        fullName:
+          type: string
+          default: Policia 10
+        email:
+          type: string
+          default: policia10@gmail.com
+        departmentId:
+          type: string

@@ -42,7 +42,7 @@ const resolveStolenBike = validate(
   }
 );
 
-const searchList = validate(
+const queryParams = validate(
   {
     query: joi.object({
       page: joi.number(),
@@ -66,4 +66,20 @@ const searchList = validate(
     abortEarly: false,
   }
 );
-export default { createStolenBike, resolveStolenBike, searchList };
+
+const getById = validate(
+  {
+    params: joi.object({
+      stolenBikeId: joi.string().length(24).required(),
+    }),
+  },
+  {
+    context: false,
+    statusCode: 422,
+    keyByField: true,
+  },
+  {
+    abortEarly: false,
+  }
+);
+export default { createStolenBike, resolveStolenBike, queryParams, getById };

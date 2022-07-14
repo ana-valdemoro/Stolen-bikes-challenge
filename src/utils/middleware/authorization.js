@@ -46,12 +46,8 @@ export const hasPermissions = (req, res, next) => {
     return next();
   }
 
-  logger.error(
-    `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
-  );
-  return next(
-    boom.forbidden(
-      `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
-    )
-  );
+  const errorMessage = `User ${user.full_name} has no authorization to ${req.baseUrl}${req.url}`;
+  logger.error(errorMessage);
+
+  return next(boom.forbidden(errorMessage));
 };

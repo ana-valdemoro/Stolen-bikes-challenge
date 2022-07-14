@@ -8,7 +8,7 @@ import db from "./config/db";
 import config from "./config/index";
 import { handleValidationError } from "./errors/handleErrors";
 import logger from "./config/winston";
-import { createPoliceListener } from "./listeners/PoliceListener";
+import { solveStolenBikeListener } from "./listeners/PoliceListener";
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(morgan("combined", { stream: logger.stream }));
 
 // Stablish mongoose connection
-db.connect().then(() => createPoliceListener());
+db.connect().then(() => solveStolenBikeListener());
 
 defineJWTStrategy(passport);
 app.use(passport.initialize());

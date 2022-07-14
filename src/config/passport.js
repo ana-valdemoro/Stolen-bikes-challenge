@@ -3,19 +3,17 @@ const { ExtractJwt } = require("passport-jwt");
 import passport from "passport";
 import { getUserWithRole } from "../features/api/users/users.service";
 import config from ".";
-import logger from "./winston";
 
 const { publicKey } = config.jwt;
 
 const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("JWT"),
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
   secretOrKey: publicKey,
 };
 
 export const defineJWTStrategy = () => {
   passport.use(
     new JwtStrategy(opts, async (jwtPayload, done) => {
-      logger.info(jwtPayload);
       const expirationDate = new Date(jwtPayload.exp * 1000);
 
       if (expirationDate < new Date()) {

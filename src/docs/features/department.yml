@@ -1,0 +1,74 @@
+/departments:
+  get:
+    summary: List all departments
+    tags:
+      - Department
+    security:
+      - JWT: []
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: The page number to query. API default value is 1
+      - in: query
+        name: pageSize
+        schema:
+          type: integer
+        description: The number of items to return. API default value is 10<br><br> In case you want to gell all departments in one page, set pageSize to -1.
+    responses:
+      200:
+        description: Array of departments
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - $ref: "#/components/responses/Pagination"
+                - properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Department"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ServerError"
+
+  post:
+    summary: Create a department by a Police director department
+    description: The directorDepartmentId you can get it from the response of the login of a director
+    tags:
+      - Department
+    security:
+      - JWT: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/Department"
+    responses:
+      201:
+        description: Department successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Department"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"

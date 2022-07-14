@@ -32,10 +32,11 @@ export const loadPoliceOfficerStolenBike = async (req, res, next) => {
     logger.error(error);
     return next(boom.badImplementation(error));
   }
-
-  if (stolenBike) {
-    res.locals.stolenBike = stolenBike;
+  if (!stolenBike) {
+    return next(boom.notFound("Stolen Bike to resolve cannot be found"));
   }
+
+  res.locals.stolenBike = stolenBike;
 
   next();
 };

@@ -1,0 +1,89 @@
+components:
+  responses:
+    Login:
+      allOf:
+        - $ref: "#/components/requestBodies/Register"
+        - properties:
+            token:
+              type: string
+
+    Register:
+      type: object
+      properties:
+        _id:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+        role_id:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+    Pagination:
+      type: object
+      properties:
+        page_count:
+          type: integer
+          example: 1
+        page_size:
+          type: integer
+          example: 10
+        page_number:
+          type: integer
+          example: 1
+        total_pages:
+          type: integer
+          example: 1
+        data:
+          type: array
+
+    PoliceOfficer:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        department_id:
+          type: object
+          properties:
+            _id:
+              type: string
+              format: ObjectId
+            name:
+              type: string
+            director_department:
+              type: object
+              $ref: "#/components/schemas/DirectorDepartment"
+
+    StolenBikeWithPoliceOfficerAndDepartment:
+      allOf:
+        - $ref: "#/components/schemas/StolenBike"
+        - properties:
+            police_officer:
+              type: object
+              $ref: "#/components/responses/PoliceOfficer"
+
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        full_name:
+          type: string
+        email:
+          type: string
+
+    GetOnePoliceOfficer:
+      allOf:
+        - $ref: "#/components/responses/PoliceOfficer"
+        - properties:
+            user:
+              type: object
+              $ref: "#/components/responses/User"

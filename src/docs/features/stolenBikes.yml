@@ -1,0 +1,204 @@
+/stolen-bikes:
+  get:
+    summary: List all stolen bikes
+    tags:
+      - Stolen bikes
+    security:
+      - JWT: []
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: The page number to query. API default value is 1
+      - in: query
+        name: pageSize
+        schema:
+          type: integer
+        description: The number of items to return. API default value is 10<br><br> In case you want to gell all stolen bikes in one page, set pageSize to -1.
+      - in: query
+        name: licenseNumber
+        schema:
+          type: string
+          minLength: 5
+          maxLength: 20
+        description: license number of a stolen bike
+      - in: query
+        name: date
+        schema:
+          type: date-format
+        description: date of theft. It has iso format YYYY-MM-DD
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum: [IN PROCESS, UNASSIGNED]
+        description: status of the stolen bike
+      - in: query
+        name: bikeOwnerId
+        schema:
+          type: string
+        description: must have a length of 24 chars as mongoose ObjectId
+
+    responses:
+      200:
+        description: A paginated response from stolen bikes
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - $ref: "#/components/responses/Pagination"
+                - properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/StolenBike"
+
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        description: A bike owner does not have access
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+
+      422:
+        description: Query params validation fails
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
+
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ServerError"
+
+  post:
+    summary: Create a stolen bike for any logged-in user
+    description: It is necessary to indicate bikeOwnerId in request body, if user does have not role bike owner
+    tags:
+      - Stolen bikes
+    security:
+      - JWT: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/requestBodies/StolenBike"
+    responses:
+      201:
+        description: Stolen Bike successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StolenBike"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
+
+/stolen-bikes/{stolenBikeId}:
+  get:
+    summary: Get one stolen bike
+    description: Accessible to police officers and Police Director Department
+    tags:
+      - Stolen bikes
+    security:
+      - JWT: []
+    parameters:
+      - in: path
+        name: stolenBikeId
+        required: true
+        schema:
+          type: string
+          minimum: 24
+        description: The stolen bike Id
+    responses:
+      200:
+        description: Stolen Bike model with police officer data and Department
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/responses/StolenBikeWithPoliceOfficerAndDepartment"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      404:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/NotFoundError"
+
+/stolen-bikes/{stolenBikeId}/solve:
+  post:
+    summary: Solve a stolen bike by a Police Director Department
+    tags:
+      - Stolen bikes
+    security:
+      - JWT: []
+    parameters:
+      - in: path
+        name: stolenBikeId
+        required: true
+        schema:
+          type: string
+          minimum: 24
+        description: The stolen bike Id
+    responses:
+      200:
+        description: Solved stolen bike model
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SolvedStolenBike"
+      401:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/UnauthorizedError"
+      403:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ForbiddenError"
+      404:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/NotFoundError"
+      422:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ValidationError"
+      500:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/ServerError"

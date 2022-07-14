@@ -1,0 +1,95 @@
+components:
+  Error:
+    title: Error
+    type: object
+    properties:
+      statusCode:
+        type: integer
+        format: int32
+      message:
+        type: string
+
+  ServerError:
+    allOf:
+      - $ref: "#/components/Error"
+      - title: InternalServerError
+      - properties:
+          statusCode:
+            type: integer
+            format: int32
+            example: 500
+          error:
+            type: string
+            example: Internal Server Error
+          message:
+            type: string
+            example: An internal server error occurred
+
+  NotFoundError:
+    allOf:
+      - $ref: "#/components/Error"
+      - title: NotFoundError
+      - properties:
+          statusCode:
+            type: integer
+            format: int32
+            example: 404
+          error:
+            type: string
+            example: Not found
+          message:
+            type: string
+            example: stolen bike cannot be found
+  UnauthorizedError:
+    allOf:
+      - $ref: "#/components/Error"
+      - title: UnauthorizedError
+      - properties:
+          statusCode:
+            type: integer
+            format: int32
+            example: 401
+          error:
+            type: string
+            example: Unauthorized
+          message:
+            type: string
+            example: The email or password are not valid
+  ForbiddenError:
+    allOf:
+      - $ref: "#/components/Error"
+      - title: ForbiddenError
+      - properties:
+          statusCode:
+            type: integer
+            format: int32
+            example: 403
+          message:
+            type: string
+            example: User Director Police Department has no authorization to /auth/police-officer/stolen-bike
+          error:
+            type: string
+            example: Forbidden
+  ValidationError:
+    allOf:
+      - $ref: "#/components/Error"
+      - title: ValidationError
+      - properties:
+          statusCode:
+            type: integer
+            format: int32
+            example: 422
+          message:
+            type: string
+            example: ValidationError
+          errors:
+            type: array
+            items:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: Email is required
+                password:
+                  type: string
+                  example: Password is required

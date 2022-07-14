@@ -1,4 +1,6 @@
 import config from "../config/index";
+import joi from "joi";
+import { validate } from "express-validation";
 
 /**
  *
@@ -27,3 +29,20 @@ const getPaginationParams = (params) => {
 };
 
 export default getPaginationParams;
+
+export const validatePaginationParams = validate(
+  {
+    query: joi.object({
+      page: joi.number().integer().min(1),
+      pageSize: joi.number().integer().min(-1),
+    }),
+  },
+  {
+    context: false,
+    statusCode: 422,
+    keyByField: true,
+  },
+  {
+    abortEarly: false,
+  }
+);

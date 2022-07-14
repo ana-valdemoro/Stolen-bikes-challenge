@@ -37,7 +37,7 @@ export const loadPoliceOfficer = async (req, res, next) => {
 
   if (policeOfficer.status === "BUSY") {
     return next(
-      boom.badData(
+      boom.forbidden(
         "You cannot delete a police officer assigned to a stolen bike case."
       )
     );

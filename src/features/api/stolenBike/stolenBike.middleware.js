@@ -16,13 +16,14 @@ export async function loadStolenBike(req, res, next) {
   try {
     stolenBike = await stolenBikeService.getByID(stolenBikeId);
   } catch (error) {
-    return next(boom.badRequest("Cannot look in stolenBike collection"));
+    return next(boom.badImplementation());
   }
 
-  if (stolenBike) {
-    res.locals.stolenBike = stolenBike;
+  if (!stolenBike) {
+    return next(boom.notFound("Stolen Bike to resolve cannot be found"));
   }
 
+  res.locals.stolenBike = stolenBike;
   next();
 }
 

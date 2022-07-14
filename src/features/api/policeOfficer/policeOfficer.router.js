@@ -14,12 +14,17 @@ import {
   hasDirectorPermissions,
   hasPermissions,
 } from "../../../utils/middleware/authorization";
+import { validatePaginationParams } from "../../../utils/pagination";
 
 const router = Router();
-router.get("/", hasPermissions, listPoliceOfficers);
+router.get("/", hasPermissions, validatePaginationParams, listPoliceOfficers);
 
-router.get("/:policeOfficerId", hasPermissions, getPoliceOfficer);
-
+router.get(
+  "/:policeOfficerId",
+  hasPermissions,
+  validator.getById,
+  getPoliceOfficer
+);
 router.post(
   "/",
   hasDirectorPermissions,

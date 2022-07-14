@@ -1,15 +1,5 @@
+import { bikeOwnerSchema } from "./bikeOwner";
 import mongoose from "mongoose";
-
-const bikeOwnerSchema = new mongoose.Schema({
-  full_name: {
-    required: true,
-    type: String,
-  },
-  _id: {
-    required: true,
-    type: mongoose.Schema.Types.ObjectId,
-  },
-});
 
 export const StolenBikeSchema = new mongoose.Schema(
   {
@@ -32,6 +22,7 @@ export const StolenBikeSchema = new mongoose.Schema(
     license_number: {
       required: true,
       type: String,
+      unique: true,
     },
     type: {
       required: true,
@@ -41,7 +32,7 @@ export const StolenBikeSchema = new mongoose.Schema(
       required: true,
       type: bikeOwnerSchema,
     },
-    police_id: {
+    police_officer_id: {
       ref: "policeofficer",
       type: mongoose.Schema.Types.ObjectId,
       unique: true,
@@ -56,18 +47,13 @@ export const StolenBikeSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    // toJSON: {
-    //   transform(doc, ret) {
-    //     delete ret._id;
-    //   },
-    // },
   }
 );
 
 StolenBikeSchema.methods.toFormatPolice = function () {
   const stolenBike = this.toJSON();
-  const police = stolenBike.police_id;
-  delete stolenBike.police_id;
+  const police = stolenBike.police_officer_id;
+  delete stolenBike.police_officer_id;
   stolenBike.police_officer = police;
 
   return stolenBike;

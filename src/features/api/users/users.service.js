@@ -2,6 +2,7 @@ import { User } from "../../../models/index";
 
 import {
   BIKE_OWNER,
+  DIRECTOR,
   getRoleByName,
   POLICE_OFFICER,
 } from "../role/role.service";
@@ -38,4 +39,16 @@ export const getBikeOwnerUser = async (id) => {
   }
 
   return bikeOwner;
+};
+
+export const getDirectorUser = async (id) => {
+  const director = await getUserWithRole(id);
+  if (!director) {
+    throw new Error(`Cannot found any director user with id ${id}`);
+  }
+
+  if (director.role_id.name !== DIRECTOR) {
+    throw new Error(`${director.full_name} user isn't director department`);
+  }
+  return director;
 };

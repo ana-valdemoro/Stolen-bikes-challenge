@@ -8,12 +8,12 @@ const remove = async (stolenBike) => stolenBike.remove();
 
 const getByID = async (id) => StolenBike.findById(id);
 
-const getByPoliceOfficerId = async (police_id) =>
-  StolenBike.findOne({ police_id });
+const getByPoliceOfficerId = async (police_officer_id) =>
+  StolenBike.findOne({ police_officer_id });
 
 const getByIdWithPoliceData = async (id) =>
   StolenBike.findById(id).populate({
-    path: "police_id",
+    path: "police_officer_id",
     select: "_id department_id status",
     populate: {
       path: "department_id",
