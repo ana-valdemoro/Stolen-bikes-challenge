@@ -24,16 +24,6 @@ app.use(passport.initialize());
 
 app.use(apiRouter);
 
-// Process ping
-app.get("/ping", async (req, res) =>
-  res.send({
-    status: "pong",
-    name,
-    uptime: process.uptime(),
-    db: mongoose.connection.readyState,
-  })
-);
-
 app.listen(config.port, (err) => {
   if (err) {
     console.error(err);
@@ -45,7 +35,6 @@ app.listen(config.port, (err) => {
 app.use(handleValidationError);
 
 app.use((err, req, res, next) => {
-  console.log(err);
   const error = err.isBoom ? err : boom.internal(err.message);
   const { statusCode, payload } = error.output;
 
