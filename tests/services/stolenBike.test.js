@@ -16,7 +16,7 @@ const mockStolenBike = {
   thief_description: "::description::",
   address: "::address::",
   type: "::type::",
-  license_number: "::license Number::",
+  license_number: "::license_number::",
   bike_owner: {
     full_name: "::bike owner::",
     _id: new mongoose.Types.ObjectId(),
@@ -25,10 +25,10 @@ const mockStolenBike = {
 
 describe("Stolen bike service test suite", () => {
   describe("Stolen bikes created when", () => {
+    afterEach(async () => await clearDatabase());
+
     it("Has all required properties", async () => {
-      expect(async () => {
-        await stolenBikeService.create(mockStolenBike);
-      }).not.toThrow();
+      await expect(stolenBikeService.create(mockStolenBike)).resolves;
     });
 
     it("Should be created without police_officer_id", async () => {
@@ -38,18 +38,30 @@ describe("Stolen bike service test suite", () => {
       expect(createdStolenBike).toHaveProperty("status", "UNASSIGNED");
     });
 
-    it("bike owner can be repeated", async () => {
-      await stolenBikeService.create(mockStolenBike);
+    it("bike owner can be repeated with a different license_number", async () => {
+      let createdStolenBike = await stolenBikeService.create(mockStolenBike);
+      let { license_number, ...mockStolenBike2 } = mockStolenBike;
+
+      expect(createdStolenBike.license_number).toBe(
+        mockStolenBike.license_number
+      );
       expect(async () => {
-        await stolenBikeService.create(mockStolenBike);
+        await stolenBikeService.create({
+          ...mockStolenBike2,
+          license_number: "::license_number2::",
+        });
       }).not.toThrow();
     });
   });
 
   describe("Errors thrown when", () => {
+    afterEach(async () => await clearDatabase());
+
     it("bike_owner is missing", async () => {
-      const { bike_owner, ...bike } = mockStolenBike;
-      await expect(stolenBikeService.create(bike)).rejects.toThrow();
+      const { bike_owner, ...mockStolenBikeWithoutBikeOwner } = mockStolenBike;
+      expect(
+        stolenBikeService.create(mockStolenBikeWithoutBikeOwner)
+      ).rejects.toThrow();
     });
 
     it("police_officer_id is repeated", async () => {
@@ -57,13 +69,45 @@ describe("Stolen bike service test suite", () => {
         ...mockStolenBike,
         police_officer_id: new mongoose.Types.ObjectId(),
       };
-      await stolenBikeService.create(bikeWithPolice);
-      await expect(stolenBikeService.create(bikeWithPolice)).rejects.toThrow();
+
+      let stolenBike = await stolenBikeService.create(bikeWithPolice);
+      let stolenBikeWithDuplictedPoliceOfficer;
+
+      try {
+        stolenBikeWithDuplictedPoliceOfficer = await stolenBikeService.create({
+          ...bikeWithPolice,
+          license_number: "::license_number2::",
+        });
+      } catch (error) {
+        const duplicatedField = Object.keys(error.keyValue)[0];
+        expect(error.code).toBe(11000);
+        expect(duplicatedField).toBe("police_officer_id");
+      }
+      expect(stolenBike.police_officer_id).toBe(
+        bikeWithPolice.police_officer_id
+      );
+      expect(stolenBikeWithDuplictedPoliceOfficer).toBe(undefined);
+    });
+
+    it("license_number is repeated", async () => {
+      await stolenBikeService.create(mockStolenBike);
+      let secondStolenBike;
+      try {
+        secondStolenBike = await stolenBikeService.create(mockStolenBike);
+      } catch (error) {
+        const duplicatedField = Object.keys(error.keyValue)[0];
+        expect(error.code).toBe(11000);
+        expect(duplicatedField).toBe("license_number");
+      }
+
+      expect(secondStolenBike).toBe(undefined);
     });
   });
 });
 
 describe("Get One Unssigned Bike", () => {
+  afterEach(async () => await clearDatabase());
+
   it("Should return null when can not find any unassigened stolen bike", async () => {
     const stolenBike = await stolenBikeService.getOneUnsignedBike();
 
@@ -79,6 +123,8 @@ describe("Get One Unssigned Bike", () => {
 });
 
 describe("Get one by ID", () => {
+  afterEach(async () => await clearDatabase());
+
   let mockToBeFound;
   beforeEach(
     async () => (mockToBeFound = await stolenBikeService.create(mockStolenBike))
