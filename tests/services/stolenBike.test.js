@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 import { connectDatabase, clearDatabase, closeDatabase } from "../db-handler";
 import stolenBikeService from "../../src/features/api/stolenBike/stolenBike.service";
 
-beforeAll(async () => await connectDatabase());
+beforeAll(() => connectDatabase());
 
-afterAll(async () => await closeDatabase());
+afterAll(() => closeDatabase());
 
-afterEach(async () => await clearDatabase());
+afterEach(() => clearDatabase());
 /**
  *  Unit test suite of StolenBike
  */
@@ -25,7 +25,7 @@ const mockStolenBike = {
 
 describe("Stolen bike service test suite", () => {
   describe("Stolen bikes created when", () => {
-    afterEach(async () => await clearDatabase());
+    afterEach(() => clearDatabase());
 
     it("Has all required properties", async () => {
       await expect(stolenBikeService.create(mockStolenBike)).resolves;
@@ -39,12 +39,10 @@ describe("Stolen bike service test suite", () => {
     });
 
     it("bike owner can be repeated with a different license_number", async () => {
-      let createdStolenBike = await stolenBikeService.create(mockStolenBike);
-      let { license_number, ...mockStolenBike2 } = mockStolenBike;
+      const createdStolenBike = await stolenBikeService.create(mockStolenBike);
+      const { license_number, ...mockStolenBike2 } = mockStolenBike;
 
-      expect(createdStolenBike.license_number).toBe(
-        mockStolenBike.license_number
-      );
+      expect(createdStolenBike.license_number).toBe(mockStolenBike.license_number);
       expect(async () => {
         await stolenBikeService.create({
           ...mockStolenBike2,
@@ -55,13 +53,11 @@ describe("Stolen bike service test suite", () => {
   });
 
   describe("Errors thrown when", () => {
-    afterEach(async () => await clearDatabase());
+    afterEach(() => clearDatabase());
 
     it("bike_owner is missing", async () => {
       const { bike_owner, ...mockStolenBikeWithoutBikeOwner } = mockStolenBike;
-      expect(
-        stolenBikeService.create(mockStolenBikeWithoutBikeOwner)
-      ).rejects.toThrow();
+      expect(stolenBikeService.create(mockStolenBikeWithoutBikeOwner)).rejects.toThrow();
     });
 
     it("police_officer_id is repeated", async () => {
@@ -70,7 +66,7 @@ describe("Stolen bike service test suite", () => {
         police_officer_id: new mongoose.Types.ObjectId(),
       };
 
-      let stolenBike = await stolenBikeService.create(bikeWithPolice);
+      const stolenBike = await stolenBikeService.create(bikeWithPolice);
       let stolenBikeWithDuplictedPoliceOfficer;
 
       try {
@@ -83,14 +79,12 @@ describe("Stolen bike service test suite", () => {
         expect(error.code).toBe(11000);
         expect(duplicatedField).toBe("police_officer_id");
       }
-      expect(stolenBike.police_officer_id).toBe(
-        bikeWithPolice.police_officer_id
-      );
+      expect(stolenBike.police_officer_id).toBe(bikeWithPolice.police_officer_id);
       expect(stolenBikeWithDuplictedPoliceOfficer).toBe(undefined);
     });
 
     it("license_number is repeated", async () => {
-      await stolenBikeService.create(mockStolenBike);
+      const firstStolenBike = await stolenBikeService.create(mockStolenBike);
       let secondStolenBike;
       try {
         secondStolenBike = await stolenBikeService.create(mockStolenBike);
@@ -99,15 +93,13 @@ describe("Stolen bike service test suite", () => {
         expect(error.code).toBe(11000);
         expect(duplicatedField).toBe("license_number");
       }
-
+      expect(firstStolenBike.license_number).toBe(mockStolenBike.license_number);
       expect(secondStolenBike).toBe(undefined);
     });
   });
 });
 
 describe("Get One Unssigned Bike", () => {
-  afterEach(async () => await clearDatabase());
-
   it("Should return null when can not find any unassigened stolen bike", async () => {
     const stolenBike = await stolenBikeService.getOneUnsignedBike();
 
@@ -123,17 +115,13 @@ describe("Get One Unssigned Bike", () => {
 });
 
 describe("Get one by ID", () => {
-  afterEach(async () => await clearDatabase());
-
   let mockToBeFound;
-  beforeEach(
-    async () => (mockToBeFound = await stolenBikeService.create(mockStolenBike))
-  );
+  beforeEach(async () => {
+    mockToBeFound = await stolenBikeService.create(mockStolenBike);
+  });
 
   it("Should return null if not found", async () => {
-    const stolenBike = await stolenBikeService.getByID(
-      mongoose.Types.ObjectId()
-    );
+    const stolenBike = await stolenBikeService.getByID(mongoose.Types.ObjectId());
 
     expect(stolenBike).toBeNull();
   });
@@ -141,6 +129,7 @@ describe("Get one by ID", () => {
   it("Should return correct stolen bike if Id matches", async () => {
     const stolenBike = await stolenBikeService.getByID(mockToBeFound._id);
 
+    expect(stolenBike).not.toBeNull();
     expect(stolenBike._id).toEqual(mockToBeFound._id);
   });
 });

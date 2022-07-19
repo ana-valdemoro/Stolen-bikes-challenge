@@ -32,14 +32,14 @@ export const closeDatabase = async () => {
  * Remove all the data for all db collections.
  */
 export const clearDatabase = async () => {
-  const collections = connection.collections;
+  const collections = Object.keys(connection.collections);
 
-  for (const key in collections) {
-    const collection = collections[key];
-    try {
-      await collection.deleteMany({});
-    } catch (error) {
-      logger.error(error);
-    }
+  const promises = collections.map((collectionName) =>
+    connection.collections[collectionName].deleteMany({}),
+  );
+  try {
+    await Promise.all(promises);
+  } catch (error) {
+    logger.error(error.message);
   }
 };
