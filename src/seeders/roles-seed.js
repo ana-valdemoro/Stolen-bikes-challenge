@@ -1,9 +1,5 @@
 import db from "../config/db";
-import {
-  BIKE_OWNER,
-  DIRECTOR,
-  POLICE_OFFICER,
-} from "../features/api/role/role.service";
+import { BIKE_OWNER, DIRECTOR, POLICE_OFFICER } from "../features/api/role/role.service";
 import { Role } from "../models/index";
 
 // Stablish database connection
