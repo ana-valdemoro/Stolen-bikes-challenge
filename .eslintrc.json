@@ -15,7 +15,9 @@
     "rules": {
         "no-console": "error",
         "quotes": ["error", "double"],
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "camelcase":"off",
+        "no-underscore-dangle" : "off"
 
     },
     "plugins": ["prettier", "jest"]
