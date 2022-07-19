@@ -1,9 +1,10 @@
 import express from "express";
 import boom from "@hapi/boom";
 import morgan from "morgan";
+import cors from "cors";
 import passport from "passport";
 import { defineJWTStrategy } from "./config/passport";
-import apiRouter from "../src/features/api.router";
+import apiRouter from "./features/api.router";
 import db from "./config/db";
 import config from "./config/index";
 import { handleValidationError } from "./errors/handleErrors";
@@ -12,6 +13,7 @@ import { solveStolenBikeListener } from "./listeners/SolveStolenBikeListener";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use(morgan("combined", { stream: logger.stream }));
