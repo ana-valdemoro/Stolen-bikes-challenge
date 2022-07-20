@@ -1,11 +1,6 @@
 import { User } from "../../../models/index";
 
-import {
-  BIKE_OWNER,
-  DIRECTOR,
-  getRoleByName,
-  POLICE_OFFICER,
-} from "../role/role.service";
+import { BIKE_OWNER, DIRECTOR, getRoleByName, POLICE_OFFICER } from "../role/role.service";
 
 const toPublic = (user) => user.toJSON();
 
@@ -28,12 +23,12 @@ export const createPoliceOfficerUser = async (data) => {
     return null;
   }
   // Call to createUser
-  return await create({ ...data, role_id: id, password: "12345" });
+  return create({ ...data, role_id: id, password: "12345" });
 };
 
 export const getBikeOwnerUser = async (id) => {
   const bikeOwner = await getUserWithRole(id);
-  console.log(bikeOwner.role_id.name);
+
   if (bikeOwner.role_id.name !== BIKE_OWNER) {
     return null;
   }

@@ -1,8 +1,4 @@
-import {
-  BIKE_OWNER,
-  DIRECTOR,
-  POLICE_OFFICER,
-} from "../../src/features/api/role/role.service";
+import { BIKE_OWNER, DIRECTOR, POLICE_OFFICER } from "../../src/features/api/role/role.service";
 import { hasPermissions } from "../../src/utils/middleware/authorization";
 import logger from "../../src/config/winston";
 
@@ -11,25 +7,17 @@ jest.mock("../../src/config/winston", () => ({
 }));
 
 jest.mock("@hapi/boom", () => ({
-  forbidden: jest
-    .fn()
-    .mockImplementation((errMessage) => new Error(errMessage)),
+  forbidden: jest.fn().mockImplementation((errMessage) => new Error(errMessage)),
 }));
 
 describe("hasPermissions middleware", () => {
   let mockRequest;
   let mockResponse;
-  let nextFunction = jest.fn();
+  const nextFunction = jest.fn();
 
   afterEach(() => {
     jest.clearAllMocks();
   });
-
-  //   beforeEach(() => {
-  //     mockResponse = {
-  //       json: jest.fn(),
-  //     };
-  //   });
 
   it("Should continue inside the app if user has director role", async () => {
     const role = { name: DIRECTOR };
@@ -66,7 +54,7 @@ describe("hasPermissions middleware", () => {
     expect(nextFunction).toHaveBeenCalledTimes(1);
     expect(logger.error).toHaveBeenCalledTimes(1);
     expect(nextFunction).toHaveBeenCalledWith(
-      new Error("User bike owner has no authorization to /esto-es-una-prueba/")
+      new Error("User bike owner has no authorization to /esto-es-una-prueba/"),
     );
   });
 });

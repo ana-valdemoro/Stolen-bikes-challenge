@@ -9,13 +9,9 @@ export const hasPoliceOfficerPermissions = (req, res, next) => {
     return next();
   }
 
-  logger.error(
-    `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
-  );
+  logger.error(`User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`);
   return next(
-    boom.forbidden(
-      `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
-    )
+    boom.forbidden(`User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`),
   );
 };
 
@@ -26,13 +22,9 @@ export const hasDirectorPermissions = (req, res, next) => {
     return next();
   }
 
-  logger.error(
-    `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
-  );
+  logger.error(`User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`);
   return next(
-    boom.forbidden(
-      `User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`
-    )
+    boom.forbidden(`User "${user.full_name}" has no authorization to "${req.baseUrl}${req.url}"`),
   );
 };
 

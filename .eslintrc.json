@@ -1,0 +1,31 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest/globals" : true
+    },
+    "extends": [
+        "airbnb-base",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-console": "error",
+        "quotes": ["error", "double"],
+        "prettier/prettier": "error",
+        "camelcase":"off",
+        "no-underscore-dangle" : "off",
+        "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies" : "off"
+
+    },
+    "plugins": ["prettier", "jest"]
+}
+
+// https://vicvijayakumar.com/blog/eslint-airbnb-style-guide-prettier
+// https://medium.com/capua-dev/integrando-prettier-con-eslint-961d1d8b716c#:~:text=Prettier%20es%20una%20herramienta%20para,cada%20vez%20que%20se%20ejecuta.
+
+

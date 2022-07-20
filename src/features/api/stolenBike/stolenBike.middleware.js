@@ -77,5 +77,3 @@ export async function loadBikeOwner(req, res, next) {
 
   next();
 }
-
-export async function checkOwnerShipOfTheCase(req, res, next) {}
