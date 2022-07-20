@@ -28,14 +28,15 @@ app.use(apiRouter);
 
 app.listen(config.port, (err) => {
   if (err) {
-    console.error(err);
+    logger.error(err);
     process.exit(1);
   }
-  console.log(`Stolen bikes app listening on port ${config.port}`);
+  logger.info(`Stolen bikes app listening on port ${config.port}`);
 });
 
 app.use(handleValidationError);
 
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const error = err.isBoom ? err : boom.internal(err.message);
   const { statusCode, payload } = error.output;

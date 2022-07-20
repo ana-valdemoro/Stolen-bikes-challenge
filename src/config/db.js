@@ -14,7 +14,7 @@ const connect = async () => {
   const url = `mongodb+srv://${user}:${pass}@cluster0.ndylh.mongodb.net/?retryWrites=true&w=majority&maxPoolSize=5`;
   try {
     await mongoose.connect(url, options);
-    console.log("Connection to mongoose works");
+    logger.info("Connection to mongoose works");
   } catch (err) {
     logger.error(`Error al conectarse a la BD: ${database}`, {
       err: err.message,
